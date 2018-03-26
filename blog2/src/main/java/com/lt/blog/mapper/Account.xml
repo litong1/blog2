@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.lt.blog.mapper.AccountMapper">
+	    <insert id="addAccount" parameterType="Account" >
+	        insert into blog_account (username,userpasswd,user_register_date)
+			values (#{username},#{userpasswd},#{user_register_date})    
+	    </insert>
+	    
+	    <delete id="deleteAccount" parameterType="Account" >
+	        delete from blog_account where userid= #{userid}   
+	    </delete>
+	     <update id="updateAccount" parameterType="Account" >
+	        update blog_account set username=#{username},userpasswd=#{userpasswd} where userid=#{userid}    
+	    </update>
+	    <select id="getAccount" parameterType="_int" resultType="Account">
+	        select * from blog_account where userid= #{userid}    
+	    </select>
+	    <select id="getAccountByUserName" parameterType="string" resultType="Account">
+	        select * from blog_account where username= #{username}    
+	    </select>   
+	    <select id="list" parameterType="com.lt.blog.util.Page" resultType="Account" >
+	        select * from blog_account order by userid asc     
+	        <if test="start!=null and count!=null">
+                    limit #{start},#{count}
+            </if>
+            
+	    </select>
+	    
+	    <select id="total" resultType="int">
+	        select count(*) from blog_account      
+	    </select>	    	    
+	</mapper>
+
