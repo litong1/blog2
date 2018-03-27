@@ -2,10 +2,18 @@ package com.lt.blog.pojo;
 
 public class Category {
 
+	private Integer categoryid;
 	private Integer userid;
 	private String categoryname;
 	private int articlenum;
 	private int isShowed_atFront;
+	
+	public Integer getCategoryid() {
+		return categoryid;
+	}
+	public void setCategoryid(Integer categoryid) {
+		this.categoryid = categoryid;
+	}
 	public Integer getUserid() {
 		return userid;
 	}

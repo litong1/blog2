@@ -75,27 +75,36 @@
     	<div class="layui-elem-quote" st>
   			<p>个人分类管理</p>
 		</div>
-	
-    <table class="layui-table" align='center' border='1' cellspacing='0'>
-        <tr>
+
+		<div>
+			<input type="hidden" id="userid" value="${user.userid }">
+			<input type="text" id="catname" required lay-verify="required"
+						placeholder="请输入分类名称" autocomplete="off" class="layui-input"
+						style="width: 257px">
+			<button class="layui-btn layui-btn-lg layui-btn-normal" id="addCatname"
+					type="button">添加分类</button>
+		</div>
+	<table class="layui-table" align='center' border='1' cellspacing='0'>
+        <tr id="catlist">
             <td>类别</td>
             <td>操作</td>
             <td>前台是否展示</td>
             <td>文章数</td>
         </tr>
-        <c:forEach items="${clist}" var="c" varStatus="st">
+        <c:forEach  items="${clist}" var="c" varStatus="st">
             <tr>
                 <td>${c.categoryname}</td>           
                 <td>
-               		 <a href="category/${c.userid}">编辑</a>
-               		 <a class="delete" href="category/${c.userid}">删除</a>
+               		 <a class="editname">编辑</a>
+               		 <input type="hidden" class="hidcatid" value="${c.categoryid}">
+               		  <input type="hidden" class="hiduserid" value="${c.userid}">
+               		 <a class="deletename">删除</a>
 				</td>
 				<td>${c.isShowed_atFront}<input type="checkbox" name="switch" lay-skin="switch"></td>
                 <td>${c.articlenum}</td>
             </tr>
         </c:forEach>
     </table>
-    <input type="checkbox" name="switch" lay-skin="switch">
     </div>
   </div>
   
@@ -120,53 +129,76 @@
 	$("#postedit").click(function(){
 		window.location.href="postedit";
 	});
-	$(".itemLabel").on('click',"button[name='deleteLabel']",function(){
-		 $(this).parent().remove();
-		 
-	});	
-	$("#addLabel").click(function(){
-		var input = "<div class='layui-input-inline'><input type='text' name='title' class='layui-input'>"
-		 +"<button class='layui-btn layui-btn-sm layui-bg-blue' name='deleteLabel' type='button'>"
-		 +"<i class='layui-icon'>&#xe640;</i></button></div>";
-		 var divNum = $("button[name='deleteLabel']").length;
-		 if(divNum <5){
-			$(".articleLabel:last").before(input);
-		 }else{
-			 alert("最多添加五个标签");
-		 }
+	$("#addCatname").click(function(){
+		var name = $("#catname").val();
+		var uid = $("#userid").val();
+		$.ajax({
+			url:"category",
+			method:"post",
+			async: true,
+			data:{
+				_method : "put",
+				categoryname:name,
+				userid:uid
+				},
+			dataType : "json",
+       		
+			success : function(data) {
+				$("#catlist").nextAll().html("");			
+				 $.each(data, function(i, item) {
+					 var content = "<tr>"+
+					 				"<td>"+item.categoryname+"</td>"+
+					 				"<td><a class='editname'>编辑</a>"+
+					 				" <input type='hidden' class='hidcatid' value="+item.categoryid+">"+
+					 				" <input type='hidden' class='hiduserid' value="+item.userid+">"+
+					 				"<a class='deletename'>删除</a></td>"+
+					 				"<td>"+item.isShowed_atFront+"<input type='checkbox' name='switch' lay-skin='switch'>"+
+					 				"<td>"+item.articlenum+"</td></tr>";
+					 $("#catlist").after(content);
+				 });
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+			}
+		});
 	});
-	$(".itemCat").on('click',"button[name='deleteCat']",function(){
-		 $(this).parent().remove();
-		 
-	})	
-	$("#addCat").click(function(){
-		var input = "<div class='layui-input-inline'><input type='text' name='title' class='layui-input'>"
-		 +"<button class='layui-btn layui-btn-sm layui-bg-blue' name='deleteCat' type='button'>"
-		 +"<i class='layui-icon'>&#xe640;</i></button></div>";
-		$("#addCat").before(input);
+	$(".deletename").click(function(){
+		var cid = $(this).parent().children(".hidcatid").val();
+		var uid = $(this).parent().children(".hiduserid").val();
+		
+		$.ajax({
+			url:"category/"+cid,
+			method:"post",
+			async: false,
+			data:{
+				_method : "delete",
+				categoryid:cid,
+				userid:uid
+				},
+			dataType : "json",
+       		
+			success : function(data) {
+				$("#catlist").nextAll().html("");			
+				 $.each(data, function(i, item) {
+					 var content = "<tr>"+
+					 				"<td>"+item.categoryname+"</td>"+
+					 				"<td><a class='editname'>编辑</a>"+
+					 				" <input type='hidden' class='hidcatid' value="+item.categoryid+">"+
+					 				" <input type='hidden' class='hiduserid' value="+item.userid+">"+
+					 				"<a class='deletename'>删除</a></td>"+
+					 				"<td>"+item.isShowed_atFront+"<input type='checkbox' name='switch' lay-skin='switch'>"+
+					 				"<td>"+item.articlenum+"</td></tr>";
+					 $("#catlist").after(content);
+				 });
+			},
+			error : function(data) {
+				alert(data.flag);
+				//window.location.href = "categoryList";
+			}
+		});
 	});
-	
-	
 </script>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	
 </body>
 </html>

@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lt.blog.mapper.CategoryMapper">
 	<insert id="addCategory" parameterType="Category">
-		insert into category (userid,categoryname,articlenum,isShowed_atFront)
-		values (#{userid},#{categoryname},#{articlenum},#{isShowed_atFront})
+		insert into category (userid,categoryname)
+		values (#{userid},#{categoryname})
 	</insert>
 
 	<delete id="deleteCategory" parameterType="int">
