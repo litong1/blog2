@@ -17,8 +17,8 @@ public class CategoryServiceImpl implements CategoryService {
 	CategoryMapper mapper;
 
 	@Override
-	public void addCategory(Category category) {
-		mapper.addCategory(category);
+	public int addCategory(Category category) {
+		return mapper.addCategory(category);
 	}
 
 	@Override
@@ -44,6 +44,11 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public int total(Integer userid) {
 		return mapper.total(userid);
+	}
+
+	@Override
+	public void deleteCategoryByName(String categoryname) {
+		mapper.deleteCategoryByName(categoryname);
 	}
 
 }

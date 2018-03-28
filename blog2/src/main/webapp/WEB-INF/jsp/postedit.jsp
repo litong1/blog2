@@ -82,14 +82,16 @@
 				      </select>
 			    </div>
 			    <div class="layui-input-inline">
-     				 <input type="text" name="title" style="width: 1491px" required  lay-verify="required" placeholder="请输入文章标题" autocomplete="off" class="layui-input">
+     				 <input type="text" name="articletitle" style="width: 1491px" required  lay-verify="required" placeholder="请输入文章标题" autocomplete="off" class="layui-input">
    				</div>
   			</div>
   			<div class="layui-form-item">
   				<textarea  class="ckeditor" name="content"></textarea>
   			</div>
+  			<input type="hidden" id="userid" value="${user.userid }">
   			<div class="layui-form-item itemLabel">
   				<label class="layui-form-label">文章标签：</label>
+  				
   				<div class="layui-input-block articleLabel">
 				      
 	  					  <button class="layui-btn layui-btn-sm layui-bg-blue" id="addLabel" type="button">
@@ -105,9 +107,14 @@
   				<div class="layui-input-block personCat"> 					  					  
 	  					  <button class="layui-btn layui-btn-sm layui-bg-blue" id="addCat" type="button">
 					   		  <i class="layui-icon">&#xe654;</i> 添加新分类
-					      </button>				      
+					      </button>	
+					      			      
 			    </div>
   			</div>
+  			<div class="layui-form-item">
+  				<div class="layui-input-block" id="catlist" >
+  				</div>
+			</div>
   			<div class="layui-form-item">
   				<label class="layui-form-label">博客分类：</label>
   				<div class="layui-input-inline">
@@ -153,9 +160,76 @@
 	  var element = layui.element;
 	  
 	});
+	//layui.use('layer', function(){
+	//	  var layer = layui.layer;
+	//	}); 
+	
 	layui.use('form', function(){
-		  var form = layui.form;	  	 
+		  var form = layui.form;	
+		 
+		  form.on('checkbox(cname)', function(data){
+			  if(data.elem.checked==true){
+				  var input = "<div class='layui-input-inline'><input type='text' name='catlist' class='layui-input' value="+data.value+">"
+						 +"<button class='layui-btn layui-btn-sm layui-bg-blue' name='deleteCat' type='button'>"
+						 +"<i class='layui-icon'>&#xe640;</i></button></div>";
+						$("#addCat").before(input);
+			  }else{
+				  $("input[name='catlist']").each(function(key,value){							
+						if($("input[name='catlist']")[key].value==data.value){
+							console.log($("input[name='catlist']")[key]);
+							$("input[name='catlist']")[key].parentNode.remove();
+						}
+					});
+			  }
+			  //console.log(data.elem); //得到checkbox原始DOM对象
+			  //console.log(data.elem.checked); //是否被选中，true或者false
+			  //console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+			  //console.log(data.othis); //得到美化后的DOM对象
+			});  
+		  $("#addCat").click(function(){
+				var val = $("#addCat").prev().find("input[name='catlist']").val();
+				if(val!=""){
+					$("input[name='divclist']").each(function(key,value){
+						
+						if($("input[name='divclist']")[key].value==val){
+							console.log($("input[name='divclist']")[key]);
+							$("input[name='divclist']")[key].checked=true;
+							form.render();
+						}
+					});
+					var input = "<div class='layui-input-inline'><input type='text' name='catlist' class='layui-input'>"
+						 +"<button class='layui-btn layui-btn-sm layui-bg-blue' name='deleteCat' type='button'>"
+						 +"<i class='layui-icon'>&#xe640;</i></button></div>";
+						$("#addCat").before(input);
+				}else{
+					layer.msg('分类名不能为空！0.0');
+				}		
+			});
 		});
+	var uid = $("#userid").val();
+	$.ajax({
+		url:"articleCategoryList",
+		method:"get",
+		async: true,
+		data:{
+			_method : "get",
+			userid:uid
+			},
+		dataType : "json",
+   		
+		success : function(data) {						
+				 $.each(data, function(i, item) {
+					 var input = "<input type='checkbox' name='divclist' lay-skin='primary' lay-filter='cname' title="+item.categoryname+" value="+item.categoryname+">";
+						$("#catlist").append(input);
+				 });		
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+		}
+	});
+	
 	$("#postedit").click(function(){
 		window.location.href="postedit";
 	});
@@ -164,26 +238,55 @@
 		 
 	});	
 	$("#addLabel").click(function(){
-		var input = "<div class='layui-input-inline'><input type='text' name='title' class='layui-input'>"
-		 +"<button class='layui-btn layui-btn-sm layui-bg-blue' name='deleteLabel' type='button'>"
-		 +"<i class='layui-icon'>&#xe640;</i></button></div>";
-		 var divNum = $("button[name='deleteLabel']").length;
-		 if(divNum <5){
-			$(".articleLabel:last").before(input);
-		 }else{
-			 alert("最多添加五个标签");
-		 }
+		var val = $("#addLabel").prev().find("input[name='arlabel']").val();
+		if(val!=""){
+			var input = "<div class='layui-input-inline'><input type='text' name='arlabel' class='layui-input'>"
+				 +"<button class='layui-btn layui-btn-sm layui-bg-blue' name='deleteLabel' type='button'>"
+				 +"<i class='layui-icon'>&#xe640;</i></button></div>";
+				 var divNum = $("button[name='deleteLabel']").length;
+				 if(divNum <5){
+					$("#addLabel").before(input);
+				 }else{
+					 layer.alert("最多添加五个标签");
+				 }
+		}else{
+			layer.msg('标签名不能为空！0.0');
+		}
+		
+		
 	});
 	$(".itemCat").on('click',"button[name='deleteCat']",function(){
+		 //var cname = $(this).prev().val(); 
+		// $.ajax({
+		//		url:"category/name/"+cname,
+		//		method:"post",
+		//		async: false,
+		//		data:{
+		//			_method : "delete",
+		//			categoryname:cname,
+		//			userid:uid
+		//			},
+		//		dataType : "json",
+	    //  		
+		//		success : function(data) {
+		//			$("#addCat").prevAll().html("");			
+		//			 $.each(data, function(i, item) {
+		//				 var input = "<div class='layui-input-inline'><input type='text' name='title' class='layui-input' value="+item.categoryname+">"
+		//				 +"<button class='layui-btn layui-btn-sm layui-bg-blue' name='deleteCat' type='button'>"
+		//				 +"<i class='layui-icon'>&#xe640;</i></button></div>";
+		//				$("#addCat").before(input);
+		//			 });
+		//		},
+		//		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		//			alert(XMLHttpRequest.status);
+	    //           alert(XMLHttpRequest.readyState);
+	    //            alert(textStatus);
+		//		}
+		//	});
 		 $(this).parent().remove();
 		 
-	})	
-	$("#addCat").click(function(){
-		var input = "<div class='layui-input-inline'><input type='text' name='title' class='layui-input'>"
-		 +"<button class='layui-btn layui-btn-sm layui-bg-blue' name='deleteCat' type='button'>"
-		 +"<i class='layui-icon'>&#xe640;</i></button></div>";
-		$("#addCat").before(input);
-	});
+	});	
+	
 	
 	
 </script>

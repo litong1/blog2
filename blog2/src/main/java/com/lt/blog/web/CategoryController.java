@@ -26,7 +26,7 @@ public class CategoryController {
 
 	@Autowired
 	CategoryService categoryService;
-	
+
 	@RequestMapping(value = "/categoryList", method = RequestMethod.GET)
 	public ModelAndView categoryList(HttpServletRequest request) {
 
@@ -34,38 +34,70 @@ public class CategoryController {
 		HttpSession session = request.getSession();
 		Account ac = (Account) session.getAttribute("user");
 		System.out.println(ac.toString());
-		List<Category> clist= categoryService.listCategory(ac.getUserid());	
+		List<Category> clist = categoryService.listCategory(ac.getUserid());
 		// 放入转发参数
 		mav.addObject("clist", clist);
 		mav.setViewName("category/list");
 		return mav;
 	}
-	
-	@RequestMapping(value = "/category/{categoryid}", method = RequestMethod.DELETE,produces="application/json;charset=UTF-8")
+
+	@RequestMapping(value = "/articleCategoryList", method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public JSONArray deleteCategory(int categoryid,int userid) {		
-		categoryService.deleteCategory(categoryid);
-		System.out.println("删除成功");
-		List<Category> clist= categoryService.listCategory(userid);
+	public JSONArray articleCategoryList(int userid) {
+		List<Category> clist = categoryService.listCategory(userid);
 		String json = JSON.toJSON(clist).toString();
 		JSONArray array = JSONArray.parseArray(json);
 		return array;
 	}
 	
-	@RequestMapping(value = "/category", method = RequestMethod.PUT,produces="application/json;charset=UTF-8")
+	@RequestMapping(value = "/category/{categoryid}", method = RequestMethod.DELETE, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public JSONArray addCategory(String categoryname,int userid) {	
+	public JSONArray deleteCategory(int categoryid, int userid) {
+		categoryService.deleteCategory(categoryid);
+		System.out.println("删除成功");
+		List<Category> clist = categoryService.listCategory(userid);
+		String json = JSON.toJSON(clist).toString();
+		JSONArray array = JSONArray.parseArray(json);
+		return array;
+	}
+
+	@RequestMapping(value = "/category/name/{categoryname}", method = RequestMethod.DELETE, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JSONArray deleteCategoryByName(String categoryname, int userid) {
+		categoryService.deleteCategoryByName(categoryname);
+		System.out.println("删除成功");
+		List<Category> clist = categoryService.listCategory(userid);
+		String json = JSON.toJSON(clist).toString();
+		JSONArray array = JSONArray.parseArray(json);
+		return array;
+	}
+	@RequestMapping(value = "/category", method = RequestMethod.PUT, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JSONArray addCategory(String categoryname, int userid) {
+		JSONArray array = new JSONArray();
 		Category cat = new Category();
 		cat.setCategoryname(categoryname);
 		cat.setUserid(userid);
-		categoryService.addCategory(cat);
-		System.out.println("添加成功");
-		List<Category> clist= categoryService.listCategory(userid);
-		String json = JSON.toJSON(clist).toString();
-		JSONArray array = JSONArray.parseArray(json);
+		int rs = -1;
+		try{
+			rs = categoryService.addCategory(cat);
+		}catch(Exception e){
+			rs = 0;
+		}	
+		if (rs>0) {
+			System.out.println("添加成功");
+			List<Category> clist = categoryService.listCategory(userid);
+			String json = JSON.toJSON(clist).toString();
+			array = JSONArray.parseArray(json);
+		}else{
+			JSONObject json = new JSONObject();
+			json.put("categoryname", "");
+			array.add(json);
+		}
 		return array;
 	}
+
 	public static void main(String[] args) {
-		
+
 	}
 }

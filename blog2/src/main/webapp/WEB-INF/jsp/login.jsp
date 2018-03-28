@@ -138,7 +138,6 @@ body{
 			var layer = layui.layer, form = layui.form;			
 		});
 		if($("#notice2").text()=='用户名和密码不匹配'){
-			alert("aa");
 			setTimeout(function() {
 				$("#notice2").hide();
 			}, 3000);

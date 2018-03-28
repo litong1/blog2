@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lt.blog.mapper.CategoryMapper">
-	<insert id="addCategory" parameterType="Category">
+	<insert id="addCategory"  parameterType="Category" >
 		insert into category (userid,categoryname)
 		values (#{userid},#{categoryname})
 	</insert>
@@ -9,7 +9,11 @@
 	<delete id="deleteCategory" parameterType="int">
 		delete from category where categoryid=#{categoryid}
 	</delete>
-
+	
+	<delete id="deleteCategoryByName" parameterType="string">
+		delete from category where categoryname=#{categoryname}
+	</delete>
+	
 	<update id="updateCategory" parameterType="Category">
 		update category set categoryname = #{categoryname} where categoryid =
 		#{categoryid}

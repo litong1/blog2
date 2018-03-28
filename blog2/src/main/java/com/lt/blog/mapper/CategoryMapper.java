@@ -13,7 +13,7 @@ public interface CategoryMapper {
 	 * 
 	 * @param category
 	 */
-	public void addCategory(Category category);
+	public int addCategory(Category category);
 
 	/**
 	 * 删除分类
@@ -22,6 +22,11 @@ public interface CategoryMapper {
 	 */
 	public void deleteCategory(Integer categoryid);
 
+	/**
+	 * 通过name删除分类
+	 * @param categoryname
+	 */
+	public void deleteCategoryByName(String categoryname);
 	/**
 	 * 更新分类名称
 	 * 

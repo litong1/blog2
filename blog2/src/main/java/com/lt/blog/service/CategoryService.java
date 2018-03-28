@@ -12,15 +12,20 @@ public interface CategoryService {
 	 * 
 	 * @param category
 	 */
-	public void addCategory(Category category);
+	public int addCategory(Category category);
 
 	/**
-	 * 删除分类
+	 * 通过id删除分类
 	 * 
 	 * @param categoryid
 	 */
 	public void deleteCategory(Integer categoryid);
 
+	/**
+	 * 通过name删除分类
+	 * @param categoryname
+	 */
+	public void deleteCategoryByName(String categoryname);
 	/**
 	 * 更新分类名称
 	 * 

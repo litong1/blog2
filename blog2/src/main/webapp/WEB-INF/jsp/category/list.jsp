@@ -76,7 +76,7 @@
   			<p>个人分类管理</p>
 		</div>
 
-		<div>
+		<div id="addCatDiv">
 			<input type="hidden" id="userid" value="${user.userid }">
 			<input type="text" id="catname" required lay-verify="required"
 						placeholder="请输入分类名称" autocomplete="off" class="layui-input"
@@ -92,7 +92,7 @@
             <td>文章数</td>
         </tr>
         <c:forEach  items="${clist}" var="c" varStatus="st">
-            <tr>
+            <tr >
                 <td>${c.categoryname}</td>           
                 <td>
                		 <a class="editname">编辑</a>
@@ -123,6 +123,9 @@
 	  var element = layui.element;
 	  
 	});
+	layui.use('layer', function(){
+		  var layer = layui.layer;
+		}); 
 	layui.use('form', function(){
 		  var form = layui.form;	  	 
 		});
@@ -144,18 +147,23 @@
 			dataType : "json",
        		
 			success : function(data) {
-				$("#catlist").nextAll().html("");			
-				 $.each(data, function(i, item) {
-					 var content = "<tr>"+
-					 				"<td>"+item.categoryname+"</td>"+
-					 				"<td><a class='editname'>编辑</a>"+
-					 				" <input type='hidden' class='hidcatid' value="+item.categoryid+">"+
-					 				" <input type='hidden' class='hiduserid' value="+item.userid+">"+
-					 				"<a class='deletename'>删除</a></td>"+
-					 				"<td>"+item.isShowed_atFront+"<input type='checkbox' name='switch' lay-skin='switch'>"+
-					 				"<td>"+item.articlenum+"</td></tr>";
-					 $("#catlist").after(content);
-				 });
+				if(data[0].categoryname==""){
+					layer.tips('分类名已存在0.0', '#addCatname');
+				}else{
+					$("#catlist").nextAll().html("");			
+					 $.each(data, function(i, item) {
+						 var content = "<tr>"+
+						 				"<td>"+item.categoryname+"</td>"+
+						 				"<td><a class='editname'>编辑</a>"+
+						 				" <input type='hidden' class='hidcatid' value="+item.categoryid+">"+
+						 				" <input type='hidden' class='hiduserid' value="+item.userid+">"+
+						 				"<a class='deletename'>删除</a></td>"+
+						 				"<td>"+item.isShowed_atFront+"<input type='checkbox' name='switch' lay-skin='switch'>"+
+						 				"<td>"+item.articlenum+"</td></tr>";
+						 $("#catlist").after(content);
+					 });
+				}
+				
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				alert(XMLHttpRequest.status);
@@ -164,10 +172,9 @@
 			}
 		});
 	});
-	$(".deletename").click(function(){
+	$(".layui-table").on('click',".deletename",function(){
 		var cid = $(this).parent().children(".hidcatid").val();
 		var uid = $(this).parent().children(".hiduserid").val();
-		
 		$.ajax({
 			url:"category/"+cid,
 			method:"post",
@@ -194,7 +201,7 @@
 				 });
 			},
 			error : function(data) {
-				alert(data.flag);
+				alert(data);
 				//window.location.href = "categoryList";
 			}
 		});
