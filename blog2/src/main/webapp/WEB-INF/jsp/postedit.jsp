@@ -205,6 +205,19 @@
 					layer.msg('分类名不能为空！0.0');
 				}		
 			});
+		  $(".itemCat").on('click',"button[name='deleteCat']",function(){
+				var val = $("#addCat").prev().find("input[name='catlist']").val();
+				$("input[name='divclist']").each(function(key,value){
+					
+					if($("input[name='divclist']")[key].value==val){
+						console.log($("input[name='divclist']")[key]);
+						$("input[name='divclist']")[key].checked=false;
+						form.render();
+					}
+				});
+				 $(this).parent().remove();
+				 
+			});	
 		});
 	var uid = $("#userid").val();
 	$.ajax({
@@ -255,37 +268,7 @@
 		
 		
 	});
-	$(".itemCat").on('click',"button[name='deleteCat']",function(){
-		 //var cname = $(this).prev().val(); 
-		// $.ajax({
-		//		url:"category/name/"+cname,
-		//		method:"post",
-		//		async: false,
-		//		data:{
-		//			_method : "delete",
-		//			categoryname:cname,
-		//			userid:uid
-		//			},
-		//		dataType : "json",
-	    //  		
-		//		success : function(data) {
-		//			$("#addCat").prevAll().html("");			
-		//			 $.each(data, function(i, item) {
-		//				 var input = "<div class='layui-input-inline'><input type='text' name='title' class='layui-input' value="+item.categoryname+">"
-		//				 +"<button class='layui-btn layui-btn-sm layui-bg-blue' name='deleteCat' type='button'>"
-		//				 +"<i class='layui-icon'>&#xe640;</i></button></div>";
-		//				$("#addCat").before(input);
-		//			 });
-		//		},
-		//		error : function(XMLHttpRequest, textStatus, errorThrown) {
-		//			alert(XMLHttpRequest.status);
-	    //           alert(XMLHttpRequest.readyState);
-	    //            alert(textStatus);
-		//		}
-		//	});
-		 $(this).parent().remove();
-		 
-	});	
+	
 	
 	
 	

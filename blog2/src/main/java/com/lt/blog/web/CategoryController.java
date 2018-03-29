@@ -97,6 +97,17 @@ public class CategoryController {
 		return array;
 	}
 
+	@RequestMapping(value="/editCategory",method=RequestMethod.PUT,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public  JSONArray editCategory(Category cat){
+		System.out.println(cat.toString());
+		categoryService.updateCategory(cat);
+		List<Category> clist = categoryService.listCategory(cat.getUserid());
+		String json = JSON.toJSON(clist).toString();
+		JSONArray array = JSONArray.parseArray(json);
+		return array;
+      
+    }
 	public static void main(String[] args) {
 
 	}

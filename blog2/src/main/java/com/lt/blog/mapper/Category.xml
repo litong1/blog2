@@ -15,7 +15,7 @@
 	</delete>
 	
 	<update id="updateCategory" parameterType="Category">
-		update category set categoryname = #{categoryname} where categoryid =
+		update category set categoryname = #{categoryname},isShowed_atFront = #{isShowed_atFront} where categoryid =
 		#{categoryid}
 	</update>
 

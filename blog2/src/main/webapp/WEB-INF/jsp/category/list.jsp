@@ -97,8 +97,11 @@
                 <td>
                		 <a class="editname">编辑</a>
                		 <input type="hidden" class="hidcatid" value="${c.categoryid}">
-               		  <input type="hidden" class="hiduserid" value="${c.userid}">
+               		 <input type="hidden" class="hidcatname" value="${c.categoryname}">
+               		 <input type="hidden" class="hidcatfront" value="${c.isShowed_atFront}">
+               		 <input type="hidden" class="hiduserid" value="${c.userid}">
                		 <a class="deletename">删除</a>
+               		 
 				</td>
 				<td>${c.isShowed_atFront}<input type="checkbox" name="switch" lay-skin="switch"></td>
                 <td>${c.articlenum}</td>
@@ -123,12 +126,93 @@
 	  var element = layui.element;
 	  
 	});
-	layui.use('layer', function(){
-		  var layer = layui.layer;
-		}); 
 	layui.use('form', function(){
-		  var form = layui.form;	  	 
-		});
+		var form = layui.form;
+		 form.on('switch(pagefront)', function(data){
+			 if(data.elem.checked==true){
+				 data.elem.value=1;
+				 console.log(data.elem.value);
+			 }else{
+				 data.elem.value=0;
+				 console.log(data.elem.value);
+			 }
+		 });
+		layui.use('layer', function(){
+			  var layer = layui.layer;
+			  var val = $("#switch").val();
+			  if(val==1){
+				  $("#switch").checked=true;
+			  }else{
+				  $("#switch").checked=false;
+			  }
+			  $(".layui-table").on('click',".editname",function(){
+					var cid = $(this).parent().children(".hidcatid").val();
+					var uid = $(this).parent().children(".hiduserid").val();
+					var cname = $(this).parent().children(".hidcatname").val();
+					var cfront = $(this).parent().children(".hidcatfront").val();
+					layer.open({
+						  type: 1,
+						  title: '编辑分类',
+						  content: $("#editform"),
+						  btn:['确认编辑'],
+						  success: function(layero, index){
+							$("#pagename").val(cname);
+							if(cfront==0){
+								$("#pagefront").checked=false;
+								$("#pagefront").val(cfront);
+							}else{
+								//alert("11");
+								$("#pagefront").attr("checked",true);
+								form.render();
+								$("#pagefront").val(cfront);
+							}
+						  },
+						  yes: function(index, layero){ 
+							  var nowname = $("#pagename").val();
+							  var nowfront = $("#pagefront").val();
+							  $.ajax({
+									url:"editCategory",
+									method:"post",
+									async: true,
+									data:{
+										_method : "put",
+										categoryname : nowname,
+										categoryid : cid,
+										userid : uid,
+										isShowed_atFront : nowfront
+										},
+									dataType : "json",
+						       		
+									success : function(data) {
+										
+											$("#catlist").nextAll().html("");			
+											 $.each(data, function(i, item) {
+												 var content = "<tr>"+
+												 				"<td>"+item.categoryname+"</td>"+
+												 				"<td><a class='editname'>编辑</a>"+
+												 				" <input type='hidden' class='hidcatid' value="+item.categoryid+">"+
+												 				" <input type='hidden' class='hiduserid' value="+item.userid+">"+
+												 				"<a class='deletename'>删除</a></td>"+
+												 				"<td>"+item.isShowed_atFront+"<input type='checkbox' name='switch' lay-skin='switch'>"+
+												 				"<td>"+item.articlenum+"</td></tr>";
+												 $("#catlist").after(content);
+											 });										
+										
+									},
+									error : function(XMLHttpRequest, textStatus, errorThrown) {
+										alert(XMLHttpRequest.status);
+						                alert(XMLHttpRequest.readyState);
+						                alert(textStatus);
+									}
+								});
+						    layer.close(index); //如果设定了yes回调，需进行手工关闭
+						  }
+						}); 
+				});
+			}); 
+	});
+	
+	
 	$("#postedit").click(function(){
 		window.location.href="postedit";
 	});
@@ -208,4 +292,24 @@
 	});
 </script>
 </body>
+<div>
+	<form class="layui-form" method="post" action="editCategory" id="editform">
+	 	<input type="hidden" name="_method" value="PUT">
+		<div class="layui-form-item">
+			<label class="layui-form-label">分类名称</label>
+			<div class="layui-input-inline">
+				<input ype="text" name="username" required lay-verify="required"
+					id="pagename" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">前台展示</label>
+			<div class="layui-input-inline">
+				<input type="checkbox" name="isShowed_atFront" lay-skin="switch"
+					id="pagefront" value="" lay-filter="pagefront">
+			</div>
+		</div>
+	</form>
+</div>
 </html>
