@@ -9,7 +9,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="layui/css/layui.css">
 <style type="text/css">
+#catname{
+	height: 38px;
+	line-height: 1.3;
+	line-height: 38px\9;
+	border-width: 1px;
+	border-style: solid;
+	background-color: #fff;
+	border-radius: 2px;
+	padding-left: 10px;
+	border-color: #D2D2D2 !important;
+}
+#catname:hover {
+	border-color: #D2D2D2 !important
+}
 
+#catname:focus {
+	border-color: #D2D2D2 !important
+}
 </style>
 <title>Insert title here</title>
 
@@ -72,17 +89,18 @@
   <div class="layui-body">
     <!-- 内容主体区域 -->
     <div style="padding: 15px;">
-    	<div class="layui-elem-quote" st>
+    	<div class="layui-elem-quote" >
   			<p>个人分类管理</p>
 		</div>
 
-		<div id="addCatDiv">
+		<div id="addCatDiv" style="display: inline">
 			<input type="hidden" id="userid" value="${user.userid }">
 			<input type="text" id="catname" required lay-verify="required"
-						placeholder="请输入分类名称" autocomplete="off" class="layui-input"
+						placeholder="请输入分类名称" autocomplete="off"
 						style="width: 257px">
 			<button class="layui-btn layui-btn-lg layui-btn-normal" id="addCatname"
 					type="button">添加分类</button>
+			
 		</div>
 	<table class="layui-table" align='center' border='1' cellspacing='0'>
         <tr id="catlist">

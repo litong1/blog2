@@ -6,192 +6,175 @@ public class Article {
 	/**
 	 * 文章id
 	 */
-	private Integer articleId;
+	private Integer articleid;
 	/**
-	 * 
+	 * 用户id
 	 */
-	private Integer articleUserId;
+	private Integer article_userid;
 
+	/**
+	 * 文章类型（原创，转载，翻译）
+	 */
+	private String articletype;
 	/**
 	 * 文章标题
 	 */
-	private String articleTitle;
-	/**
-	 * 文章父分类id
-	 */
-	private Integer articleParentCategoryId;
-	/**
-	 * 文章子分类id
-	 */
-	private Integer articleChildCategoryId;
+	private String articletitle;
 	/**
 	 * 文章标签
 	 */
-	private String articleTagIds;
+	private String article_tag;
+	/**
+	 * 文章分类
+	 */
+	private String article_personcategoty;
+	
+	/**
+	 * 文章博客分类
+	 */
+	private String article_blogcategory;
+	/**
+	 * 是否为私密文章
+	 */
+	private String article_isPrivate;
 	/**
 	 * 文章浏览量
 	 */
-	private Integer articleViewCount;
+	private Integer article_view_count;
 	/**
 	 * 文章收藏数
 	 */
-	private Integer articleCollectedCount;
+	private Integer article_collected_count;
 	/**
 	 * 文章评论量
 	 */
-	private Integer articleCommentCount;
+	private Integer article_commented_count;
 	/**
 	 * 文章喜欢数
 	 */
-	private Integer articleLikeCount;
+	private Integer article_liked_count;
 	/**
 	 * 文章发表时间
 	 */
-	private Date articlePostTime;
+	private Date article_post_time;
 	/**
 	 * 文章更新时间
 	 */
-	private Date articleUpdateTime;
+	private Date article_update_time;
 	/**
 	 * 文章是否被评论
 	 */
-	private Integer articleIsComment;
+	private Integer article_isComment;
 	/**
 	 * 文章状态
 	 */
-	private Integer articleStatus;
-	/**
-	 * 文章顺序
-	 */
-	private Integer articleOrder;
+	private Integer articlestate;
 	/**
 	 * 文章内容
 	 */
-	private String articleContent;
-
-	public Integer getArticleId() {
-		return articleId;
+	private String articlecontent;
+	public Integer getArticleid() {
+		return articleid;
+	}
+	public void setArticleid(Integer articleid) {
+		this.articleid = articleid;
+	}
+	public Integer getArticle_userid() {
+		return article_userid;
+	}
+	public void setArticle_userid(Integer article_userid) {
+		this.article_userid = article_userid;
+	}
+	public String getArticletype() {
+		return articletype;
+	}
+	public void setArticletype(String articletype) {
+		this.articletype = articletype;
+	}
+	public String getArticletitle() {
+		return articletitle;
+	}
+	public void setArticletitle(String articletitle) {
+		this.articletitle = articletitle;
+	}
+	public String getArticle_tag() {
+		return article_tag;
+	}
+	public void setArticle_tagids(String article_tagids) {
+		this.article_tag = article_tagids;
+	}
+	public String getArticle_personcategoty() {
+		return article_personcategoty;
+	}
+	public void setArticle_personcategoty(String article_personcategoty) {
+		this.article_personcategoty = article_personcategoty;
+	}
+	public String getArticle_blogcategory() {
+		return article_blogcategory;
+	}
+	public void setArticle_blogcategory(String article_blogcategory) {
+		this.article_blogcategory = article_blogcategory;
+	}
+	public String getArticle_isPrivate() {
+		return article_isPrivate;
+	}
+	public void setArticle_isPrivate(String article_isPrivate) {
+		this.article_isPrivate = article_isPrivate;
+	}
+	public Integer getArticle_view_count() {
+		return article_view_count;
+	}
+	public void setArticle_view_count(Integer article_view_count) {
+		this.article_view_count = article_view_count;
+	}
+	public Integer getArticle_collected_count() {
+		return article_collected_count;
+	}
+	public void setArticle_collected_count(Integer article_collected_count) {
+		this.article_collected_count = article_collected_count;
+	}
+	public Integer getArticle_commented_count() {
+		return article_commented_count;
+	}
+	public void setArticle_commented_count(Integer article_commented_count) {
+		this.article_commented_count = article_commented_count;
+	}
+	public Integer getArticle_liked_count() {
+		return article_liked_count;
+	}
+	public void setArticle_liked_count(Integer article_liked_count) {
+		this.article_liked_count = article_liked_count;
+	}
+	public Date getArticle_post_time() {
+		return article_post_time;
+	}
+	public void setArticle_post_time(Date article_post_time) {
+		this.article_post_time = article_post_time;
+	}
+	public Date getArticle_update_time() {
+		return article_update_time;
+	}
+	public void setArticle_update_time(Date article_update_time) {
+		this.article_update_time = article_update_time;
+	}
+	public Integer getArticle_isComment() {
+		return article_isComment;
+	}
+	public void setArticle_isComment(Integer article_isComment) {
+		this.article_isComment = article_isComment;
+	}
+	public Integer getArticlestate() {
+		return articlestate;
+	}
+	public void setArticlestate(Integer articlestate) {
+		this.articlestate = articlestate;
+	}
+	public String getArticlecontent() {
+		return articlecontent;
+	}
+	public void setArticlecontent(String articlecontent) {
+		this.articlecontent = articlecontent;
 	}
 
-	public void setArticleId(Integer articleId) {
-		this.articleId = articleId;
-	}
-
-	public Integer getArticleUserId() {
-		return articleUserId;
-	}
-
-	public void setArticleUserId(Integer articleUserId) {
-		this.articleUserId = articleUserId;
-	}
-
-	public String getArticleTitle() {
-		return articleTitle;
-	}
-
-	public void setArticleTitle(String articleTitle) {
-		this.articleTitle = articleTitle == null ? null : articleTitle.trim();
-	}
-
-	public Integer getArticleParentCategoryId() {
-		return articleParentCategoryId;
-	}
-
-	public void setArticleParentCategoryId(Integer articleParentCategoryId) {
-		this.articleParentCategoryId = articleParentCategoryId;
-	}
-
-	public Integer getArticleChildCategoryId() {
-		return articleChildCategoryId;
-	}
-
-	public void setArticleChildCategoryId(Integer articleChildCategoryId) {
-		this.articleChildCategoryId = articleChildCategoryId;
-	}
-
-	public String getArticleTagIds() {
-		return articleTagIds;
-	}
-
-	public void setArticleTagIds(String articleTagIds) {
-		this.articleTagIds = articleTagIds == null ? null : articleTagIds.trim();
-	}
-
-	public Integer getArticleViewCount() {
-		return articleViewCount;
-	}
-
-	public void setArticleViewCount(Integer articleViewCount) {
-		this.articleViewCount = articleViewCount;
-	}
-	public Integer getArticleCollectedCount() {
-		return articleCollectedCount;
-	}
-
-	public void setArticleCollectedCount(Integer articleCollectedCount) {
-		this.articleCollectedCount = articleCollectedCount;
-	}
-	public Integer getArticleCommentCount() {
-		return articleCommentCount;
-	}
-
-	public void setArticleCommentCount(Integer articleCommentCount) {
-		this.articleCommentCount = articleCommentCount;
-	}
-
-	public Integer getArticleLikeCount() {
-		return articleLikeCount;
-	}
-
-	public void setArticleLikeCount(Integer articleLikeCount) {
-		this.articleLikeCount = articleLikeCount;
-	}
-
-	public Date getArticlePostTime() {
-		return articlePostTime;
-	}
-
-	public void setArticlePostTime(Date articlePostTime) {
-		this.articlePostTime = articlePostTime;
-	}
-
-	public Date getArticleUpdateTime() {
-		return articleUpdateTime;
-	}
-
-	public void setArticleUpdateTime(Date articleUpdateTime) {
-		this.articleUpdateTime = articleUpdateTime;
-	}
-
-	public Integer getArticleIsComment() {
-		return articleIsComment;
-	}
-
-	public void setArticleIsComment(Integer articleIsComment) {
-		this.articleIsComment = articleIsComment;
-	}
-
-	public Integer getArticleStatus() {
-		return articleStatus;
-	}
-
-	public void setArticleStatus(Integer articleStatus) {
-		this.articleStatus = articleStatus;
-	}
-
-	public Integer getArticleOrder() {
-		return articleOrder;
-	}
-
-	public void setArticleOrder(Integer articleOrder) {
-		this.articleOrder = articleOrder;
-	}
-
-	public String getArticleContent() {
-		return articleContent;
-	}
-
-	public void setArticleContent(String articleContent) {
-		this.articleContent = articleContent == null ? null : articleContent.trim();
-	}
+	
 }
