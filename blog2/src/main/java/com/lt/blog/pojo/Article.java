@@ -1,6 +1,7 @@
 package com.lt.blog.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 public class Article {
 	/**
@@ -37,22 +38,8 @@ public class Article {
 	 * 是否为私密文章
 	 */
 	private String article_isPrivate;
-	/**
-	 * 文章浏览量
-	 */
-	private Integer article_view_count;
-	/**
-	 * 文章收藏数
-	 */
-	private Integer article_collected_count;
-	/**
-	 * 文章评论量
-	 */
-	private Integer article_commented_count;
-	/**
-	 * 文章喜欢数
-	 */
-	private Integer article_liked_count;
+	
+	
 	/**
 	 * 文章发表时间
 	 */
@@ -100,8 +87,8 @@ public class Article {
 	public String getArticle_tag() {
 		return article_tag;
 	}
-	public void setArticle_tagids(String article_tagids) {
-		this.article_tag = article_tagids;
+	public void setArticle_tag(String article_tag) {
+		this.article_tag = article_tag;
 	}
 	public String getArticle_personcategoty() {
 		return article_personcategoty;
@@ -120,30 +107,6 @@ public class Article {
 	}
 	public void setArticle_isPrivate(String article_isPrivate) {
 		this.article_isPrivate = article_isPrivate;
-	}
-	public Integer getArticle_view_count() {
-		return article_view_count;
-	}
-	public void setArticle_view_count(Integer article_view_count) {
-		this.article_view_count = article_view_count;
-	}
-	public Integer getArticle_collected_count() {
-		return article_collected_count;
-	}
-	public void setArticle_collected_count(Integer article_collected_count) {
-		this.article_collected_count = article_collected_count;
-	}
-	public Integer getArticle_commented_count() {
-		return article_commented_count;
-	}
-	public void setArticle_commented_count(Integer article_commented_count) {
-		this.article_commented_count = article_commented_count;
-	}
-	public Integer getArticle_liked_count() {
-		return article_liked_count;
-	}
-	public void setArticle_liked_count(Integer article_liked_count) {
-		this.article_liked_count = article_liked_count;
 	}
 	public Date getArticle_post_time() {
 		return article_post_time;
@@ -174,6 +137,15 @@ public class Article {
 	}
 	public void setArticlecontent(String articlecontent) {
 		this.articlecontent = articlecontent;
+	}
+	@Override
+	public String toString() {
+		return "Article [articleid=" + articleid + ", article_userid=" + article_userid + ", articletype=" + articletype
+				+ ", articletitle=" + articletitle + ", article_tag=" + article_tag + ", article_personcategoty="
+				+ article_personcategoty + ", article_blogcategory=" + article_blogcategory + ", article_isPrivate="
+				+ article_isPrivate + ", article_post_time=" + article_post_time + ", article_update_time="
+				+ article_update_time + ", article_isComment=" + article_isComment + ", articlestate=" + articlestate
+				+ ", articlecontent=" + articlecontent + "]";
 	}
 
 	

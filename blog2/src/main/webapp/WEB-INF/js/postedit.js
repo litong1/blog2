@@ -1,3 +1,28 @@
+$(document).ready(function(){
+	var uid = $("#userid").val();
+	$.ajax({
+		url:"articleCategoryList",
+		method:"get",
+		async: true,
+		data:{
+			_method : "get",
+			userid:uid
+			},
+		dataType : "json",
+   		
+		success : function(data) {						
+				 $.each(data, function(i, item) {
+					 var input = "<input type='checkbox' name='divclist' lay-skin='primary' lay-filter='cname' title="+item.categoryname+" value="+item.categoryname+">";
+						$("#catlist").append(input);
+				 });		
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+		}
+	});
+}); 
 $(function() {
 		layui.use('element', function(){
 		  var element = layui.element;
@@ -8,38 +33,17 @@ $(function() {
 			  var layer = layui.layer;
 			}); 
 		var uid = $("#userid").val();
-		$.ajax({
-			url:"articleCategoryList",
-			method:"get",
-			async: true,
-			data:{
-				_method : "get",
-				userid:uid
-				},
-			dataType : "json",
-	   		
-			success : function(data) {						
-					 $.each(data, function(i, item) {
-						 var input = "<input type='checkbox' name='divclist' lay-skin='primary' lay-filter='cname' title="+item.categoryname+" value="+item.categoryname+">";
-							$("#catlist").append(input);
-					 });		
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				alert(XMLHttpRequest.status);
-	            alert(XMLHttpRequest.readyState);
-	            alert(textStatus);
-			}
-		});
+		
 		
 		layui.use('form', function(){
 			  var form = layui.form;	
 			  form.on('switch(isPrivate)', function(data){
 					 if(data.elem.checked==true){
 						 data.elem.value=1;
-						 console.log(data.elem.value);
+						 //console.log(data.elem.value);
 					 }else{
 						 data.elem.value=0;
-						 console.log(data.elem.value);
+						 //console.log(data.elem.value);
 					 }
 				 });
 			  form.on('checkbox(cname)', function(data){
@@ -94,8 +98,10 @@ $(function() {
 					 
 				});	
 			});
+		
 		//发布博客
 		$("#pblog").click(function(){
+			console.log("uid"+uid);
 			var atype = $("select[name='type']").val();
 			console.log(atype);
 			var atitle = $("input[name='articletitle']").val();
@@ -125,24 +131,23 @@ $(function() {
 					article_userid:uid,
 					articletype:atype,
 					articletitle:atitle,
-					article_personcategoty:acat,
+					article_tag:atags.toString(),
+					article_personcategoty:acats.toString(),
 					article_blogcategory:bcat,
-					article_isPrivate:cpre,
-					articlestate:0,
-					articlecontent:content
+					article_isPrivate:apre,
+					articlestate:1,
+					articlecontent:content,
+					traditional:true,    //这里必须设置
 					},
 				dataType : "json",
 		   		
 				success : function(data) {						
-						 $.each(data, function(i, item) {
-							 var input = "<input type='checkbox' name='divclist' lay-skin='primary' lay-filter='cname' title="+item.categoryname+" value="+item.categoryname+">";
-								$("#catlist").append(input);
-						 });		
+					window.location.href="articleAddesult";
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 					alert(XMLHttpRequest.status);
 		            alert(XMLHttpRequest.readyState);
-		            alert(textStatus);
+		            alert(XMLHttpRequest.responseText);
 				}
 			});
 		});

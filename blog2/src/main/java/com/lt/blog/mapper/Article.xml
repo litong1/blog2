@@ -5,7 +5,7 @@
 		insert into blog_article (article_userid,articletype,articletitle,article_tag,article_personcategoty
 		,article_blogcategory,article_isPrivate,article_post_time,articlestate,articlecontent)
 		values (#{article_userid},#{articletype},#{articletitle},#{article_tag},#{article_personcategoty}
-		,#{article_blogcategory},#{article_isPrivate},#{article_post_time},#{articlestate,articlecontent})
+		,#{article_blogcategory},#{article_isPrivate},#{article_post_time},#{articlestate},#{articlecontent})
 	</insert>
 
 	<delete id="deleteArticle" parameterType="int">
