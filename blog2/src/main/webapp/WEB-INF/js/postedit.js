@@ -151,6 +151,58 @@ $(function() {
 				}
 			});
 		});
+		//保存博客到草稿箱
+		$("#saveDraft").click(function(){
+			console.log("uid"+uid);
+			var atype = $("select[name='type']").val();
+			console.log(atype);
+			var atitle = $("input[name='articletitle']").val();
+			console.log(atitle);
+			var atags = new Array();							
+			$("input[name='arlabel']").each(function(key,value){						
+				atags[key]=$(this).val();
+			});
+			console.log(atags);
+			var acats = new Array();
+			$("input[name='catlist']").each(function(key,value){						
+				acats[key]=$(this).val();
+			});
+			console.log(acats);
+			var bcat = $("select[name='bcat']").val();
+			console.log(bcat);
+			var apre = $("input[name='switch']").val();
+			console.log(apre);
+			
+			var content = CKEDITOR.instances.content.getData();
+			console.log(content);
+			$.ajax({
+				url:"addArticle",
+				method:"post",
+				async: true,
+				data:{
+					article_userid:uid,
+					articletype:atype,
+					articletitle:atitle,
+					article_tag:atags.toString(),
+					article_personcategoty:acats.toString(),
+					article_blogcategory:bcat,
+					article_isPrivate:apre,
+					articlestate:2,
+					articlecontent:content,
+					traditional:true,    //这里必须设置
+					},
+				dataType : "json",
+		   		
+				success : function(data) {						
+					layer.msg("保存草稿箱成功！");
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+		            alert(XMLHttpRequest.readyState);
+		            alert(XMLHttpRequest.responseText);
+				}
+			});
+		});
 		$("#postedit").click(function(){
 			window.location.href="postedit";
 		});

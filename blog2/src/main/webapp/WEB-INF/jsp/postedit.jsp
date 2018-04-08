@@ -137,7 +137,7 @@
  			 <div class="layui-form-item">
     			<div class="layui-input-block">
 				      <button class="layui-btn layui-btn-lg layui-bg-red" id="pblog" type="button"  >发布博客</button>
-				      <button class="layui-btn layui-btn-lg layui-btn-warm" id="register" type="button" >保存草稿</button>
+				      <button class="layui-btn layui-btn-lg layui-btn-warm" id="saveDraft" type="button" >保存草稿</button>
 				      <button class="layui-btn layui-btn-lg layui-btn-primary" id="register" type="button" >返回</button>
 			    </div>
  			 </div>
