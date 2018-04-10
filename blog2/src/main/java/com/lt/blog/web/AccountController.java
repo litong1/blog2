@@ -23,7 +23,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lt.blog.pojo.Account;
+import com.lt.blog.pojo.Article;
+import com.lt.blog.pojo.Category;
+import com.lt.blog.pojo.User;
 import com.lt.blog.service.AccountService;
+import com.lt.blog.service.ArticleService;
+import com.lt.blog.service.UserService;
 import com.lt.blog.util.Page;
 
 @Controller
@@ -32,7 +37,12 @@ public class AccountController {
 
 	@Autowired
 	AccountService accountService;
-
+	
+	@Autowired
+	ArticleService articleService;
+	
+	@Autowired
+	UserService userService;
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView traRegister() {
 
@@ -52,6 +62,14 @@ public class AccountController {
 			account.setUserpasswd(BCrypt.hashpw(account.getUserpasswd(), BCrypt.gensalt()));
 			account.setUser_register_date(new Date(System.currentTimeMillis()));
 			accountService.add(account);
+			Account c = accountService.getAccountByUserName(account.getUsername());
+			User u = new User();
+			
+			u.setUserid(c.getUserid());
+			System.out.println("userid: " + u.getUserid());
+			u.setUsername(c.getUsername());
+			System.out.println("username: " + u.getUsername());
+			userService.addUser(u);
 			mav = new ModelAndView("redirect:/login");			
 		} else{
 			System.out.println("该用户名已经注册过");
@@ -102,6 +120,9 @@ public class AccountController {
 	public ModelAndView traIndex() {
 
 		ModelAndView mav = new ModelAndView();
+		List<Article> alist = articleService.getArticleListByDate();
+		// 放入转发参数
+		mav.addObject("alist", alist);
 		mav.setViewName("index");
 		return mav;
 	}

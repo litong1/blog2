@@ -30,8 +30,8 @@
 			<input type="text">
 			<li class="layui-nav-item "><a href="">写博客</a></li>
 			<li class="layui-nav-item "><a href="">发动态</a></li>
-			<li class="layui-nav-item"><a href=""><img
-						src="http://t.cn/RCzsdCq" class="layui-nav-img">我</a>
+			<li class="layui-nav-item"><a href="usercenter"><img
+						src="http://t.cn/RCzsdCq" class="layui-nav-img">${user.username}</a>
 					<dl class="layui-nav-child">
 						<dd>
 							<a href="javascript:;">修改信息</a>
@@ -60,10 +60,10 @@
 				</ul>
 			</div>
 			<div class="layui-body">
-				<c:forEach  items="${blist}" var="b" varStatus="st">
+				<c:forEach  items="${alist}" var="a" varStatus="st">
 					<div>
-						<p>${b.blogtitle}</p>
-						<p>${b.posttime}</p>
+						<p>${a.articletitle}</p>
+						<p>${a.article_post_time}</p>
 					</div>
 				</c:forEach>
 			</div>

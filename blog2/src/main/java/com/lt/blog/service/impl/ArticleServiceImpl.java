@@ -1,5 +1,6 @@
 package com.lt.blog.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +61,23 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		return null;
 	}
+
+	@Override
+	public Article getArticleById(Integer articleid) {
+		
+		return mapper.getArticleById(articleid);
+	}
+
+	@Override
+	public List<Article> getArticleListByCommand() {
+		List<Integer> articleidList = mapper.getArticleListByCommand();
+		List<Article> articleList = new ArrayList<>();
+		for (Integer articleid:articleidList) {
+			Article ar = mapper.getArticleById(articleid);
+			articleList.add(ar);
+		}	
+		return articleList;
+	}
+	
 
 }

@@ -17,10 +17,19 @@
 		{articlecontent} where articleid = #{articleid}
 	</update>
 
-	<select id="getArticleListByDate"  resultType="Category">
+	<select id="getArticleById"  resultType="Article">
+		select * from blog_article where articleid = #{articleid}
+		desc
+	</select>
+	
+	<select id="getArticleListByDate"  resultType="Article">
 		select * from blog_article order by article_post_time
 		desc
 	</select>
 	
+	<select id="getArticleListByCommand"  resultType="int">
+		select articleid from blog_article_count order by article_view_count
+		desc
+	</select>
 	
 </mapper>

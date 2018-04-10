@@ -46,30 +46,7 @@ public class User {
      */
     private int userlevel; 
     
-    /**
-     * 用户关注数
-     */
-    private int user_follow_num; 
-    /**
-     * 用户粉丝数
-     */
-    private int user_fans_num; 
-    /**
-     * 用户原创数
-     */
-    private int user_original_num; 
-    /**
-     * 用户点赞数
-     */
-    private int user_liked_num; 
-    /**
-     * 用户评论数
-     */
-    private int user_commented_num; 
-    /**
-     * 用户访问量
-     */
-    private int user_visitted_num;
+    
     public Integer getUserid() {
         return userid;
     }
@@ -136,41 +113,13 @@ public class User {
     public void setUserlevel(int userlevel) {
         this.userlevel = userlevel;
     }
-    public int getUser_follow_num() {
-        return user_follow_num;
-    }
-    public void setUser_follow_num(int user_follow_num) {
-        this.user_follow_num = user_follow_num;
-    }
-    public int getUser_fans_num() {
-        return user_fans_num;
-    }
-    public void setUser_fans_num(int user_fans_num) {
-        this.user_fans_num = user_fans_num;
-    }
-    public int getUser_original_num() {
-        return user_original_num;
-    }
-    public void setUser_original_num(int user_original_num) {
-        this.user_original_num = user_original_num;
-    }
-    public int getUser_liked_num() {
-        return user_liked_num;
-    }
-    public void setUser_liked_num(int user_liked_num) {
-        this.user_liked_num = user_liked_num;
-    }
-    public int getUser_commented_num() {
-        return user_commented_num;
-    }
-    public void setUser_commented_num(int user_commented_num) {
-        this.user_commented_num = user_commented_num;
-    }
-    public int getUser_visitted_num() {
-        return user_visitted_num;
-    }
-    public void setUser_visitted_num(int user_visitted_num) {
-        this.user_visitted_num = user_visitted_num;
-    }
+	@Override
+	public String toString() {
+		return "User [userid=" + userid + ", username=" + username + ", useravatar=" + useravatar
+				+ ", user_mail_address=" + user_mail_address + ", user_real_name=" + user_real_name + ", usersex="
+				+ usersex + ", useraddress=" + useraddress + ", userindustry=" + userindustry + ", userposition="
+				+ userposition + ", userintro=" + userintro + ", userlevel=" + userlevel + "]";
+	}
+   
     
 }

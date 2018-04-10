@@ -22,6 +22,14 @@ public interface ArticleMapper {
 	 * 更新文章根据id
 	 */
 	public void updateArticle(Article article);
+	
+	/**
+	 * 根据文章id获取文章
+	 * @param articleid
+	 * @return
+	 */
+	public Article getArticleById(Integer articleid);
+	
 	/**
 	 * 获取最新文章列表
 	 * @return
@@ -52,5 +60,11 @@ public interface ArticleMapper {
 	 * @return
 	 */
 	public List<Article> getArticleListByArticletag(String articletag);
+	
+	/**
+	 * 推荐文章
+	 * @return
+	 */
+	public List<Integer> getArticleListByCommand();
 	
 }
