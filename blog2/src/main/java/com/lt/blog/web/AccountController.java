@@ -105,7 +105,7 @@ public class AccountController {
 			if (BCrypt.checkpw(userpasswd, bCryptpw)) {
 				HttpSession session = request.getSession();
 	        	//System.out.println(user.getRole());
-				session.setAttribute("user", ac);
+				session.setAttribute("account", ac);
 				mav = new ModelAndView("redirect:/index");
 			} else {
 				System.out.println("用户名和密码不匹配");		

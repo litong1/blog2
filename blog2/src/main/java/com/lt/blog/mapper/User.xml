@@ -11,10 +11,10 @@
 	    
 	     <update id="editUser" parameterType="User" >
 	        update blog_user set user_mail_address=#{user_mail_address},user_real_name=#{user_real_name},
-	        user_sex=#{user_sex},user_address=#{user_address},userindustry=#{userindustry},
-	        userposition=#{userposition},userlevel=#{userlevel} where userid=#{userid}    
+	        user_sex=#{user_sex},user_address=#{user_address},userindustry=#{userindustry},userbirthday=#{userbirthday},
+	        userposition=#{userposition},userintro=#{userintro} where userid=#{userid}    
 	    </update>
-	    <select id="getUserByid" parameterType="_int" resultType="User">
+	    <select id="getUserById" parameterType="_int" resultType="User">
 	        select * from blog_user where userid= #{userid}    
 	    </select>	       
 	</mapper>

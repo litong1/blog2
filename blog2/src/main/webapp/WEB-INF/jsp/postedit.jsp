@@ -39,7 +39,7 @@
       <li class="layui-nav-item">
         <a href="javascript:;">
           <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-          ${user.username }
+          ${account.username }
         </a>
         <dl class="layui-nav-child">
           <dd><a href="">基本资料</a></dd>

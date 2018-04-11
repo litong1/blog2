@@ -1,6 +1,19 @@
 package com.lt.blog.pojo;
 
+import java.util.Date;
+
 public class User {
+//	_method : "put",
+//	userid : userid,
+//	username : username,
+//	user_mail_address : user_mail_address,
+//	user_real_name : user_real_name,
+//	user_sex : user_sex,
+//	user_address : user_address,
+//	userindustry : userindustry,
+//	userposition : userposition,
+//	userbirthday : userbirthday,
+//	userintro : userintro
     /**
      * 用户id
      */
@@ -24,11 +37,11 @@ public class User {
     /**
      * 用户性别 （0 男 1 女）
      */
-    private int usersex;
+    private Integer user_sex;
     /**
      * 用户地址
      */
-    private String useraddress; 
+    private String user_address; 
     /**
      * 用户行业
      */
@@ -37,6 +50,10 @@ public class User {
      * 用户职位
      */
     private String userposition; 
+    /**
+     * 用户生日
+     */
+    private Date userbirthday;
     /**
      * 用户简介
      */
@@ -77,17 +94,17 @@ public class User {
     public void setUser_real_name(String user_real_name) {
         this.user_real_name = user_real_name;
     }
-    public int getUsersex() {
-        return usersex;
+    public Integer getUser_sex() {
+        return user_sex;
     }
-    public void setUsersex(int usersex) {
-        this.usersex = usersex;
+    public void setUser_sex(Integer user_sex) {
+        this.user_sex = user_sex;
     }
-    public String getUseraddress() {
-        return useraddress;
+    public String getUser_address() {
+        return user_address;
     }
-    public void setUseraddress(String useraddress) {
-        this.useraddress = useraddress;
+    public void setUser_address(String user_address) {
+        this.user_address = user_address;
     }
     public String getUserindustry() {
         return userindustry;
@@ -101,7 +118,13 @@ public class User {
     public void setUserposition(String userposition) {
         this.userposition = userposition;
     }
-    public String getUserintro() {
+    public Date getUserbirthday() {
+		return userbirthday;
+	}
+	public void setUserbirthday(Date userbirthday) {
+		this.userbirthday = userbirthday;
+	}
+	public String getUserintro() {
         return userintro;
     }
     public void setUserintro(String userintro) {
@@ -117,7 +140,7 @@ public class User {
 	public String toString() {
 		return "User [userid=" + userid + ", username=" + username + ", useravatar=" + useravatar
 				+ ", user_mail_address=" + user_mail_address + ", user_real_name=" + user_real_name + ", usersex="
-				+ usersex + ", useraddress=" + useraddress + ", userindustry=" + userindustry + ", userposition="
+				+ user_sex + ", useraddress=" + user_address + ", userindustry=" + userindustry + ", userposition="
 				+ userposition + ", userintro=" + userintro + ", userlevel=" + userlevel + "]";
 	}
    

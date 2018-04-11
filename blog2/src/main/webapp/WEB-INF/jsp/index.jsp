@@ -31,7 +31,7 @@
 			<li class="layui-nav-item "><a href="">写博客</a></li>
 			<li class="layui-nav-item "><a href="">发动态</a></li>
 			<li class="layui-nav-item"><a href="usercenter"><img
-						src="http://t.cn/RCzsdCq" class="layui-nav-img">${user.username}</a>
+						src="http://t.cn/RCzsdCq" class="layui-nav-img">${account.username}</a>
 					<dl class="layui-nav-child">
 						<dd>
 							<a href="javascript:;">修改信息</a>

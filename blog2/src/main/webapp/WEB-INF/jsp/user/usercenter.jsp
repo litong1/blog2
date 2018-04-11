@@ -110,7 +110,7 @@ background-color:#f2f2f2;
 			<li class="layui-nav-item "><a href="">写博客</a></li>
 			<li class="layui-nav-item "><a href="">发动态</a></li>
 			<li class="layui-nav-item"><a href=""><img
-						src="http://t.cn/RCzsdCq" class="layui-nav-img">${user.username }</a>
+						src="http://t.cn/RCzsdCq" class="layui-nav-img">${account.username }</a>
 					<dl class="layui-nav-child">
 						<dd>
 							<a href="javascript:;">修改信息</a>
@@ -119,7 +119,7 @@ background-color:#f2f2f2;
 							<a href="javascript:;">安全管理</a>
 						</dd>
 						<dd>
-							<a href="javascript:;">退了</a>
+							<a href="login">退了</a>
 						</dd>
 					</dl>
 			</li>
@@ -152,26 +152,37 @@ background-color:#f2f2f2;
 						</dl>
 						<dl class="user-info">
 							<dt class="user-nick-name">
-								<span>${user.username }</span>
+								<span id="susername">${user.username }</span>
 								
 							</dt>
 							<dd class="user-detail">
-								<span>未填写行业</span>
+								<input type="hidden" id="userindustry" value="${user.userindustry }">
+								<span id="suserindustry">${user.userindustry==null?"未填写行业":user.userindustry }</span>
 								<span>|</span>
-								<span>未填写职位</span>
+								<input type="hidden" id="userposition" value="${user.userposition }">
+								<span id="suserposition">${user.userposition==null?"未填写职位":user.userposition }</span>
 								<span>|</span>
-								<span>未填写姓名</span>
+								<input type="hidden" id="user_real_name" value="${user.user_real_name }">
+								<span id="suser_real_name">${user.user_real_name==null?"未填写姓名":user.user_real_name }</span>
 								<span>|</span>
-								<span>未填写地址</span>
+								<input type="hidden" id="user_address" value="${user.user_address }">
+								<span id="suser_address">${user.user_address==null?"未填写地址":user.user_address }</span>
 								<span>|</span>
-								<span>未填写性别</span>
+								<input type="hidden" id="user_sex" value="${user.user_sex }">
+								<span id="suser_sex">${user.user_sex==null?"未填写性别":user.user_sex==0?"男":"女" }</span>
 								<span>|</span>
-								<span>未填写生日</span>
+								<input type="hidden" id="userbirthday" value="${user.userbirthday }">
+								<span id="suserbirthday">${user.userbirthday==null?"未填写生日":user.userbirthday }</span>
 								<span>|</span>
-								<span>未填写邮箱</span>
+								<input type="hidden" id="user_mail_address" value="${user.user_mail_address }">
+								<span id="suser_mail_address">${user.user_mail_address==null?"未填写邮箱":user.user_mail_address }</span>
+								<input type="hidden" id="userintro" value="${user.userintro }">
+								<input type="hidden" id="userid" value="${user.userid }">
 							</dd>
 							
-							<dd class="user-sign">个人简介</dd>
+							<dd class="user-sign">							
+								<span id="suserintro">${user.userintro==null?"个人简介":user.userintro }</span>
+							</dd>
 							<dd>
 								<button class="layui-btn layui-btn-lg layui-btn-primary" id="edituser"
 									style="display: inline; float: right;">
@@ -235,46 +246,62 @@ layui.use('form', function(){
 				  content: $("#edituserform"),
 				  btn:['保存','取消'],
 				  success: function(layero, index){
-					
+					  $("input[name='username']").val($("#susername").text());
+					  $("input[name='user_mail_address']").val($("#user_mail_address").val());
+					  $("input[name='user_real_name']").val($("#user_real_name").val());
+					  $("input[name='user_sex']").val($("#user_sex").val());
+					  $("input[name='user_address']").val($("#user_address").val());
+					  $("input[name='userindustry']").val($("#userindustry").val());
+					  $("#birthday").val($("#userbirthday").val());
+					  $("input[name='userposition']").val($("#userposition").val());
+					  $("textarea[name='userintro']").val($("#userintro").val());
 				  },
 				  yes: function(index, layero){ 
+					  	var vuserid = $("#userid").val();
+					  	var vusername = $("input[name='username']").val();
+						var vuser_mail_address = $("input[name='user_mail_address']").val();
+						var vuser_real_name = $("input[name='user_real_name']").val();
+						var vuser_sex = $("input[name='user_sex']").val();
+						var vuser_address = $("input[name='user_address']").val();
+						var vuserindustry = $("input[name='userindustry']").val();
+						var vuserbirthday = $("#birthday").val();
+						var vuserposition = $("input[name='userposition']").val();
+						var vuserintro = $("textarea[name='userintro']").val();
 					  $.ajax({
 							url:"editUser",
 							method:"post",
 							async: true,
 							data:{
 								_method : "put",
-								user_mail_address : nowname,
-								user_real_name : cid,
-								user_sex : uid,
-								user_address : nowfront,
-								userindustry : aa,
-								userposition : bb,
-								userintro : cc
+								userid : vuserid,
+								username : vusername,
+								user_mail_address : vuser_mail_address,
+								user_real_name : vuser_real_name,
+								user_sex : vuser_sex,
+								user_address : vuser_address,
+								userindustry : vuserindustry,
+								userposition : vuserposition,
+								userbirthday : new Date(vuserbirthday.replace(/-/g,"/")),
+								userintro : vuserintro
 								},
 							dataType : "json",
 				       		
 							success : function(data) {
 								
-									$(".user-detail").html("");			
-									 $.each(data, function(i, item) {
-										 var content = "<span>"+
-										 			未填写行业+
-										 			"</span><span>|</span><span>"+
-										 			未填写职位+
-										 			"</span><span>|</span><span>"+
-										 			未填写姓名+
-										 			"</span><span>|</span><span>"+
-										 			未填写地址+
-										 			"</span><span>|</span><span>"+
-										 			未填写性别+
-										 			"</span><span>|</span><span>"+
-										 			未填写生日+
-										 			"</span><span>|</span><span>"+
-										 			未填写邮箱+"</span>";
-										 $(".user-detail").append(content);
-									 });										
+								$("#susername").html(vusername);	
+								$("#suserindustry").html(vuserindustry);
+								$("#suserposition").html(vuserposition);
+								$("#suser_real_name").html(vuser_real_name);
+								$("#suser_address").html(vuser_address);
+								if(vuser_sex==0){
+									$("#suser_sex").html("男");
+								}else{
+									$("#suser_sex").html("女");
+								}
 								
+								$("#suserbirthday").html(vuserbirthday);
+								$("#suser_mail_address").html(vuser_mail_address);							
+								$("#suserintro").html(vuserintro);
 							},
 							error : function(XMLHttpRequest, textStatus, errorThrown) {
 								alert(XMLHttpRequest.status);
@@ -312,25 +339,25 @@ function userRegister(){
 		<div class="layui-form-item">
 			<label class="layui-form-label">昵称：</label>
 			<div class="layui-input-block">
-				<input type="text" name="username" required lay-verify="required"
+				<input type="text" name="username" 
 					placeholder="请输入昵称" autocomplete="off" class="layui-input">
 			</div>
 			<label class="layui-form-label">实名：</label>
 			<div class="layui-input-block">
-				<input type="text" name="user_real_name" required lay-verify="required"
+				<input type="text" name="user_real_name" 
 					placeholder="请输入真实姓名" autocomplete="off" class="layui-input">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">职位：</label>
 			<div class="layui-input-block">
-				<input type="text" name="userposition" required lay-verify="required"
+				<input type="text" name="userposition" 
 					placeholder="请输入职位" autocomplete="off" class="layui-input">
 			</div>
 			<label class="layui-form-label">性别：</label>
 			<div class="layui-input-block">
-				<input type="radio" name="user_sex" value="男" title="男"> <input
-					type="radio" name="sex" value="女" title="女" checked>
+				<input type="radio" name="user_sex" value="0" title="男"> <input
+					type="radio" name="sex" value="1" title="女" >
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -340,19 +367,19 @@ function userRegister(){
 			</div>
 			<label class="layui-form-label">行业：</label>
 			<div class="layui-input-block">
-				<input type="text" name="userindustry" required lay-verify="required"
+				<input type="text" name="userindustry" 
 					placeholder="请输入行业" autocomplete="off" class="layui-input">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">地区：</label>
 			<div class="layui-input-block">
-				<input type="text" name="user_address" required lay-verify="required"
+				<input type="text" name="user_address" 
 					placeholder="请输入地区" autocomplete="off" class="layui-input">
 			</div>	
 			<label class="layui-form-label">邮箱：</label>
 			<div class="layui-input-block">
-				<input type="text" name="user_mail_address" required lay-verify="required"
+				<input type="text" name="user_mail_address" 
 					placeholder="请输入邮箱" autocomplete="off" class="layui-input">
 			</div>	
 		</div>
