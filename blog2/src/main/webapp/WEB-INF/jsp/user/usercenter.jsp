@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -169,10 +170,13 @@ background-color:#f2f2f2;
 								<span id="suser_address">${user.user_address==null?"未填写地址":user.user_address }</span>
 								<span>|</span>
 								<input type="hidden" id="user_sex" value="${user.user_sex }">
-								<span id="suser_sex">${user.user_sex==null?"未填写性别":user.user_sex==0?"男":"女" }</span>
+								<span id="suser_sex">${user.user_sex==null?"未填写性别":(user.user_sex==0?"男":"女") }</span>
 								<span>|</span>
 								<input type="hidden" id="userbirthday" value="${user.userbirthday }">
-								<span id="suserbirthday">${user.userbirthday==null?"未填写生日":user.userbirthday }</span>
+								<span id="suserbirthday" >
+									<fmt:formatDate value="${user.userbirthday==null?'未填写生日':user.userbirthday }" pattern="yyyy-MM-dd"/>
+									
+								</span>
 								<span>|</span>
 								<input type="hidden" id="user_mail_address" value="${user.user_mail_address }">
 								<span id="suser_mail_address">${user.user_mail_address==null?"未填写邮箱":user.user_mail_address }</span>
@@ -221,6 +225,11 @@ background-color:#f2f2f2;
 <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="layui/layui.js"></script>
 <script type="text/javascript">
+function getBirthday(birthday) {
+	var d = new Date(birthday);
+	var sd = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+	return sd;
+}
 layui.use('element', function(){
 	  var element = layui.element;
 	  
@@ -235,6 +244,7 @@ layui.use('laydate', function(){
 	  });
 });
 layui.use('form', function(){
+	 var form = layui.form;	
 	layui.use('layer', function(){
 		
 		$("#edituser").click(function(){
@@ -247,24 +257,47 @@ layui.use('form', function(){
 				  btn:['保存','取消'],
 				  success: function(layero, index){
 					  $("input[name='username']").val($("#susername").text());
-					  $("input[name='user_mail_address']").val($("#user_mail_address").val());
-					  $("input[name='user_real_name']").val($("#user_real_name").val());
-					  $("input[name='user_sex']").val($("#user_sex").val());
-					  $("input[name='user_address']").val($("#user_address").val());
-					  $("input[name='userindustry']").val($("#userindustry").val());
-					  $("#birthday").val($("#userbirthday").val());
-					  $("input[name='userposition']").val($("#userposition").val());
-					  $("textarea[name='userintro']").val($("#userintro").val());
+					  $("input[name='user_mail_address']").val($("#suser_mail_address").text());
+					  $("input[name='user_real_name']").val($("#suser_real_name").text());
+					  console.log($("#suser_sex").text());
+					  if($("#suser_sex").text()=="男"){
+						  $("input[name='user_sex']")[0].checked=true;
+						  form.render();
+					  }else{
+						  $("input[name='user_sex']")[1].checked=true;
+						  form.render();
+					  }
+					  $("input[name='user_address']").val($("#suser_address").text());
+					  $("input[name='userindustry']").val($("#suserindustry").text());
+					  $("#birthday").val($("#suserbirthday").text().replace(/[\r\n]/g,"").replace(/(^\s*)|(\s*$)/g, ""));
+					  console.log($("#suserbirthday").text().replace(/[\r\n]/g,"").replace(/(^\s*)|(\s*$)/g, ""));
+					  $("input[name='userposition']").val($("#suserposition").text());
+					  $("textarea[name='userintro']").val($("#suserintro").text());
 				  },
 				  yes: function(index, layero){ 
 					  	var vuserid = $("#userid").val();
 					  	var vusername = $("input[name='username']").val();
 						var vuser_mail_address = $("input[name='user_mail_address']").val();
 						var vuser_real_name = $("input[name='user_real_name']").val();
-						var vuser_sex = $("input[name='user_sex']").val();
+						var vuser_sex = null;
+						$("input[name='user_sex']").each(function(key,value){
+							
+							if($("input[name='user_sex']")[key].checked==true){
+								console.log($("input[name='user_sex']")[key]);
+								if($("input[name='user_sex']")[key].title=="男"){
+									vuser_sex = 0;
+								}else{
+									vuser_sex = 1;
+								}
+								
+								form.render();
+							}
+						});
+						console.log("sex: " + vuser_sex);
 						var vuser_address = $("input[name='user_address']").val();
 						var vuserindustry = $("input[name='userindustry']").val();
 						var vuserbirthday = $("#birthday").val();
+						
 						var vuserposition = $("input[name='userposition']").val();
 						var vuserintro = $("textarea[name='userintro']").val();
 					  $.ajax({
@@ -313,8 +346,7 @@ layui.use('form', function(){
 				  },
 				  btn2: function(index, layero){
 					    //按钮【按钮二】的回调
-					    layer.close(index);
-					    console.log("aaa");
+					    layer.close(index);					
 					    //return false 开启该代码可禁止点击该按钮关闭
 					  },
 				  cancel: function(index, layero){ 
@@ -357,13 +389,13 @@ function userRegister(){
 			<label class="layui-form-label">性别：</label>
 			<div class="layui-input-block">
 				<input type="radio" name="user_sex" value="0" title="男"> <input
-					type="radio" name="sex" value="1" title="女" >
+					type="radio" name="user_sex" value="1" title="女" >
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">生日：</label>
 			<div class="layui-input-block">
-				<input type="text" class="layui-input" id="birthday"> 
+				<input type="text" class="layui-input" id="birthday" pattern="yyyy-MM-dd"> 
 			</div>
 			<label class="layui-form-label">行业：</label>
 			<div class="layui-input-block">
