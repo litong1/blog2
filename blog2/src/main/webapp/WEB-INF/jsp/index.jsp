@@ -100,7 +100,10 @@
 								
 							</div>
 						</c:forEach>
+						<div>
+						</div>
 					</div>
+					
 					<div class="bodyright" style="width: 10%; float: right;">
 						<div>今日推荐</div>
 						<div style="width: 100%; height: 300px; background-color: orange;">
@@ -122,13 +125,32 @@
 <script src="layui/layui.js"></script>
 <script type="text/javascript">
 layui.use('element', function(){
-	  var element = layui.element;
+	  var element = layui.element;	  
+	});
+layui.use('laypage', function(){
+	  var laypage = layui.laypage;
 	  
-	  //…
+	  //执行一个laypage实例
+	  laypage.render({
+	    elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
+	    ,count: 50 //数据总数，从服务端得到
+	    ,jump: function(obj, first){
+	        //obj包含了当前分页的所有参数，比如：
+	        console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+	        var curr = obj.curr;
+	        console.log(obj.limit); //得到每页显示的条数
+	        var limit = obj.limit;
+	        
+	        //首次不执行
+	        if(!first){
+	          //do something
+	        }
+	      }
+	  });
 	});
 function userRegister(){
 	 window.location.href="postedit";
-	}
+}
 </script>
 </body>
 </html>

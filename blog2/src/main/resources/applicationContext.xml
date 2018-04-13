@@ -70,6 +70,17 @@
 		<property name="typeAliasesPackage" value="com.lt.blog.pojo" />
 		<property name="dataSource" ref="dataSource"/>
 		<property name="mapperLocations" value="classpath:com/lt/blog/mapper/*.xml"/>
+		<property name="plugins">
+            <array>
+              <bean class="com.github.pagehelper.PageInterceptor">
+                <property name="properties">
+                  <!--使用下面的方式配置参数，一行配置一个 -->
+                  <value>
+                  </value>
+                </property>
+              </bean>
+            </array>
+          </property> 
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

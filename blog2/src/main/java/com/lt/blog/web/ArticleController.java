@@ -127,4 +127,11 @@ public class ArticleController {
 		mav.setViewName("article");
 		return mav;
 	}
+	@RequestMapping(value = "/article", method = RequestMethod.GET)
+	public ModelAndView traArticle() {
+
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("article/article");
+		return mav;
+	}
 }

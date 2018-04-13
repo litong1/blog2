@@ -1,5 +1,7 @@
 package com.lt.blog.util;
 
+import com.github.pagehelper.PageHelper;
+
 public class Page {
 
 	int start=0;
@@ -18,6 +20,7 @@ public class Page {
 		this.count = count;
 	}
 	public int getLast() {
+		
 		return last;
 	}
 	public void setLast(int last) {
