@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lt.blog.mapper.ArticleMapper">
 	<insert id="addArticle"  parameterType="Article" >
-		insert into blog_article (article_userid,articletype,articletitle,article_tag,article_personcategoty
+		insert into blog_article (article_userid,article_username,article_useravatar,articletype,articletitle,article_tag,article_personcategoty
 		,article_blogcategory,article_isPrivate,article_post_time,articlestate,articlecontent)
-		values (#{article_userid},#{articletype},#{articletitle},#{article_tag},#{article_personcategoty}
+		values (#{article_userid},#{article_username},#{article_useravatar},#{articletype},#{articletitle},#{article_tag},#{article_personcategoty}
 		,#{article_blogcategory},#{article_isPrivate},#{article_post_time},#{articlestate},#{articlecontent})
 	</insert>
 
@@ -31,5 +31,7 @@
 		select articleid from blog_article_count order by article_view_count
 		desc
 	</select>
-	
+	<select id="getNewArticleList" parameterType="int" resultType="int">
+		select articleid from blog_article_count limit 5 where article_userid=#{article_userid} order by article_post_time desc; 
+	</select>
 </mapper>

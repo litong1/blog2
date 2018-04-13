@@ -88,7 +88,7 @@
   			<div class="layui-form-item">
   				<textarea  class="ckeditor" name="content"></textarea>
   			</div>
-  			<input type="hidden" id="userid" value="${user.userid }">
+  			<input type="hidden" id="userid" value="${account.userid }">
   			<div class="layui-form-item itemLabel">
   				<label class="layui-form-label">文章标签：</label>
   				

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.lt.blog.mapper.UserCount">
+	    <select id="getUserCountById" parameterType="_int" resultType="UserCount">
+	        select * from blog_user_count where userid= #{userid}    
+	    </select>
+	    <update id="addFollownum" parameterType="UserCount">
+	    	update blog_user_count set user_follow_num= #{user_follow_num} + 1
+	    	where userid= #{userid}
+	    </update>
+	     <update id="addFansnum" parameterType="UserCount">
+	    	update blog_user_count set user_fans_num= #{user_fans_num} + 1
+	    	where userid= #{userid}
+	    </update>
+	     <update id="addOriginalnum" parameterType="UserCount">
+	    	update blog_user_count set user_original_num= #{user_original_num} + 1
+	    	where userid= #{userid}
+	    </update>
+	     <update id="addLikednum" parameterType="UserCount">
+	    	update blog_user_count set user_liked_num= #{user_liked_num} + 1
+	    	where userid= #{userid}
+	    </update>
+	     <update id="addCommentednum" parameterType="UserCount">
+	    	update blog_user_count set user_commented_num= #{user_commented_num} + 1
+	    	where userid= #{userid}
+	    </update>
+	     <update id="addVisittednum" parameterType="UserCount">
+	    	update blog_user_count set user_visitted_num= #{user_visitted_num} + 1
+	    	where userid= #{userid}
+	    </update>	       
+	</mapper>

@@ -65,4 +65,11 @@ public interface ArticleService {
 	 * @return
 	 */
 	public List<Article> getArticleListByCommand();
+	
+	/**
+	 * 找出用户最新的五篇文章
+	 * @param article_userid
+	 * @return
+	 */
+	public List<Integer> getNewArticleList(Integer article_userid);
 }

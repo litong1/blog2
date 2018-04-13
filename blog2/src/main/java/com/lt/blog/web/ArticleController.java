@@ -11,12 +11,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lt.blog.db.RedisApi;
 import com.lt.blog.pojo.Article;
 import com.lt.blog.pojo.Category;
+import com.lt.blog.pojo.User;
+import com.lt.blog.pojo.UserCount;
 import com.lt.blog.service.ArticleService;
 import com.lt.blog.service.CategoryService;
+import com.lt.blog.service.UserCountService;
+import com.lt.blog.service.UserService;
+
+import redis.clients.jedis.Jedis;
 
 @Controller
 @RequestMapping("")
@@ -26,6 +34,10 @@ public class ArticleController {
 	ArticleService articleService;
 	@Autowired
 	CategoryService categoryService;
+	@Autowired
+	UserService userService;
+	@Autowired
+	UserCountService userCountService;
 	@RequestMapping(value = "/postedit", method = RequestMethod.GET)
 	public ModelAndView traPostedit() {
 
@@ -33,6 +45,13 @@ public class ArticleController {
 		mav.setViewName("postedit");
 		return mav;
 	}
+//	@RequestMapping(value = "/postedit", method = RequestMethod.GET)
+//	public ModelAndView traPostedit() {
+//
+//		ModelAndView mav = new ModelAndView();
+//		mav.setViewName("postedit");
+//		return mav;
+//	}
 	@RequestMapping(value = "/articleAddResult", method = RequestMethod.GET)
 	public ModelAndView traArticleAddResult() {
 
@@ -49,10 +68,18 @@ public class ArticleController {
 	
 		String article_personcategotys = article.getArticle_personcategoty();	
 		int userid = article.getArticle_userid();
-			
+		User user = userService.getUserById(userid);
+		article.setArticle_username(user.getUsername());
+		article.setArticle_useravatar(user.getUseravatar());
 		//文章发布时间赋值
 		article.setArticle_post_time(new Date(System.currentTimeMillis()));
 		articleService.addArticle(article);
+		
+		// 找出用户最新的五篇文章   redis里userid对应最新五篇文章的articleid
+//		List<Integer> articleList = articleService.getNewArticleList(userid);
+//		Jedis jedis = RedisApi.getJedis();
+//		jedis.hset("", String.valueOf(userid), JSON.parseArray(articleList.toString()).toString());
+		
 		//添加新个人分类
 		List<Category> catlist = categoryService.listCategory(userid);
 		List<String> beCatnameList = new ArrayList<>();
@@ -71,12 +98,33 @@ public class ArticleController {
 			cat.setUserid(userid);
 			cat.setCategoryname(catname);
 			categoryService.addCategory(cat);
-		}
-		
-		
-		
+		}	
 		JSONObject json = new JSONObject();
 		json.put("result", "success");
 		return json;
+	}
+	@RequestMapping(value = "/article/{articleid}", method = RequestMethod.GET)
+	public ModelAndView getArticle(int articleid) {
+		//获取文章信息
+		Article ar = articleService.getArticleById(articleid);
+		//获取用户统计信息
+		UserCount uc = userCountService.getUserCountById(ar.getArticle_userid());
+		//获取用户最新五篇文章信息
+//		Jedis jedis = RedisApi.getJedis();
+//		String articleidList = jedis.hget("", String.valueOf(ar.getArticle_userid()));
+//		JSONArray array = JSON.parseArray(articleidList);
+//		List<Article> articleList = new ArrayList<>();
+//		for (int i = 0; i < array.size(); i++) {
+//			int newid = array.getIntValue(i);
+//			Article newar = articleService.getArticleById(newid);
+//			articleList.add(newar);
+//		}
+		ModelAndView mav = new ModelAndView();
+		// 放入转发参数
+		mav.addObject("userCount", uc);
+		mav.addObject("article", ar);
+		//mav.addObject("newarList",articleidList);
+		mav.setViewName("article");
+		return mav;
 	}
 }

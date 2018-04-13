@@ -142,7 +142,7 @@ $(function() {
 				dataType : "json",
 		   		
 				success : function(data) {						
-					window.location.href="articleAddesult";
+					window.location.href="articleAddResult";
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 					alert(XMLHttpRequest.status);

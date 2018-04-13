@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -97,7 +98,7 @@ background-color:#f2f2f2;
 		<div class="layui-logo" >
 		     LTBLOG     </div>
 		<ul class="layui-nav layui-layout-left" lay-filter="">
-			<li class="layui-nav-item layui-this"><a href="">博客</a></li>
+			<li class="layui-nav-item layui-this"><a href="index">博客</a></li>
 			<li class="layui-nav-item "><a href="">下载</a></li>
 			<li class="layui-nav-item"><a href="">动态</a></li>
 			<li class="layui-nav-item"><a href="javascript:;">留言板</a>
@@ -111,7 +112,7 @@ background-color:#f2f2f2;
 			<li class="layui-nav-item "><a href="">写博客</a></li>
 			<li class="layui-nav-item "><a href="">发动态</a></li>
 			<li class="layui-nav-item"><a href=""><img
-						src="http://t.cn/RCzsdCq" class="layui-nav-img">${account.username }</a>
+						src="${user.useravatar }" class="layui-nav-img">${account.username }</a>
 					<dl class="layui-nav-child">
 						<dd>
 							<a href="javascript:;">修改信息</a>
@@ -141,7 +142,7 @@ background-color:#f2f2f2;
 						
 						<dl class="user-photo">
 							<dt>
-								<img src="http://t.cn/RCzsdCq" width="150px" height="150px">
+								<img src="${user.useravatar }" width="150px" height="150px">
 							</dt>
 
 							<dd class="follow_num">
@@ -174,7 +175,19 @@ background-color:#f2f2f2;
 								<span>|</span>
 								<input type="hidden" id="userbirthday" value="${user.userbirthday }">
 								<span id="suserbirthday" >
-									<fmt:formatDate value="${user.userbirthday==null?'未填写生日':user.userbirthday }" pattern="yyyy-MM-dd"/>
+									<c:choose>
+
+										<c:when test="${user.userbirthday==null}">
+											<!--如果 -->
+											未填写生日
+										</c:when>
+
+										<c:otherwise>
+											<!--否则 -->
+ 											<fmt:formatDate value="${user.userbirthday}" pattern="yyyy-MM-dd"/>
+										</c:otherwise>
+
+									</c:choose>
 									
 								</span>
 								<span>|</span>

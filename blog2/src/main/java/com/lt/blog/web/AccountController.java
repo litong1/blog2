@@ -117,10 +117,15 @@ public class AccountController {
 	}
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public ModelAndView traIndex() {
+	public ModelAndView traIndex(HttpServletRequest request) {
 
 		ModelAndView mav = new ModelAndView();
 		List<Article> alist = articleService.getArticleListByDate();
+		HttpSession session = request.getSession();
+		Account ac = (Account) session.getAttribute("account");
+		System.out.println(ac.toString());
+		User user = userService.getUserById(ac.getUserid());
+		mav.addObject("user",user );
 		// 放入转发参数
 		mav.addObject("alist", alist);
 		mav.setViewName("index");

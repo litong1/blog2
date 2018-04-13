@@ -14,6 +14,12 @@ public class Article {
 	private Integer article_userid;
 
 	/**
+	 * 
+	 */
+	private String article_username;
+	
+	private String article_useravatar;
+	/**
 	 * 文章类型（原创，转载，翻译）
 	 */
 	private String articletype;
@@ -71,6 +77,19 @@ public class Article {
 	}
 	public void setArticle_userid(Integer article_userid) {
 		this.article_userid = article_userid;
+	}
+	
+	public String getArticle_username() {
+		return article_username;
+	}
+	public void setArticle_username(String article_username) {
+		this.article_username = article_username;
+	}
+	public String getArticle_useravatar() {
+		return article_useravatar;
+	}
+	public void setArticle_useravatar(String article_useravatar) {
+		this.article_useravatar = article_useravatar;
 	}
 	public String getArticletype() {
 		return articletype;

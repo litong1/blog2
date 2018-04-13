@@ -78,6 +78,12 @@ public class ArticleServiceImpl implements ArticleService {
 		}	
 		return articleList;
 	}
+
+	@Override
+	public List<Integer> getNewArticleList(Integer article_userid) {
+		// TODO Auto-generated method stub
+		return mapper.getNewArticleList(article_userid);
+	}
 	
 
 }
