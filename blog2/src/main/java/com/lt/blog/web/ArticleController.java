@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,6 +24,8 @@ import com.lt.blog.service.ArticleService;
 import com.lt.blog.service.CategoryService;
 import com.lt.blog.service.UserCountService;
 import com.lt.blog.service.UserService;
+import com.lt.blog.service.impl.ArticleServiceImpl;
+import com.lt.blog.service.impl.UserCountImpl;
 
 import redis.clients.jedis.Jedis;
 
@@ -80,6 +83,14 @@ public class ArticleController {
 //		Jedis jedis = RedisApi.getJedis();
 //		jedis.hset("", String.valueOf(userid), JSON.parseArray(articleList.toString()).toString());
 		
+		//文章原创数+1
+		
+		UserCount ucount = userCountService.getUserCountById(userid);
+		if(ucount==null){
+			userCountService.addUserCount(userid);
+			ucount = userCountService.getUserCountById(userid);
+		}
+		userCountService.addOriginalnum(ucount);
 		//添加新个人分类
 		List<Category> catlist = categoryService.listCategory(userid);
 		List<String> beCatnameList = new ArrayList<>();
@@ -103,11 +114,15 @@ public class ArticleController {
 		json.put("result", "success");
 		return json;
 	}
-	@RequestMapping(value = "/article/{articleid}", method = RequestMethod.GET)
-	public ModelAndView getArticle(int articleid) {
+	@RequestMapping(value = "/article/{articleid:\\d+}", method=RequestMethod.GET,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public ModelAndView getArticle(@PathVariable("articleid") Integer articleid) {
+		System.out.println(123);
+		System.out.println(articleid);
 		//获取文章信息
 		Article ar = articleService.getArticleById(articleid);
 		//获取用户统计信息
+		System.out.println(ar.toString());
 		UserCount uc = userCountService.getUserCountById(ar.getArticle_userid());
 		//获取用户最新五篇文章信息
 //		Jedis jedis = RedisApi.getJedis();
@@ -124,7 +139,7 @@ public class ArticleController {
 		mav.addObject("userCount", uc);
 		mav.addObject("article", ar);
 		//mav.addObject("newarList",articleidList);
-		mav.setViewName("article");
+		mav.setViewName("article/article");
 		return mav;
 	}
 	@RequestMapping(value = "/article", method = RequestMethod.GET)
@@ -133,5 +148,10 @@ public class ArticleController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("article/article");
 		return mav;
+	}
+	public static void main(String[] args) {
+		UserCountImpl ar = new UserCountImpl();
+		UserCount uc = ar.getUserCountById(18);
+		System.out.println(uc.toString());
 	}
 }

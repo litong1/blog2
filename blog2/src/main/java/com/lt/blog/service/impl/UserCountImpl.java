@@ -14,6 +14,11 @@ public class UserCountImpl implements UserCountService {
 	UserCountMapper mapper;
 
 	@Override
+	public void addUserCount(Integer userid) {
+		
+		mapper.addUserCount(userid);
+	}
+	@Override
 	public UserCount getUserCountById(Integer userid) {
 
 		return mapper.getUserCountById(userid);
@@ -53,5 +58,7 @@ public class UserCountImpl implements UserCountService {
 		mapper.addVisittednum(userCount);
 
 	}
+
+	
 
 }

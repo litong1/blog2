@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="layui/css/layui.css">
+<link rel="stylesheet" href="../layui/css/layui.css">
 <title>我的博客</title>
 <style>
 .user-photo{
@@ -98,7 +98,7 @@ background-color:#f2f2f2;
 		<div class="layui-logo" >
 		     LTBLOG     </div>
 		<ul class="layui-nav layui-layout-left" lay-filter="">
-			<li class="layui-nav-item layui-this"><a href="index">博客</a></li>
+			<li class="layui-nav-item layui-this"><a href="../index">博客</a></li>
 			<li class="layui-nav-item "><a href="">下载</a></li>
 			<li class="layui-nav-item"><a href="">动态</a></li>
 			<li class="layui-nav-item"><a href="javascript:;">留言板</a>

@@ -19,7 +19,6 @@
 
 	<select id="getArticleById"  resultType="Article">
 		select * from blog_article where articleid = #{articleid}
-		desc
 	</select>
 	
 	<select id="getArticleListByDate"  resultType="Article">

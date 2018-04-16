@@ -55,9 +55,9 @@
     		 <button class="layui-btn layui-btn-lg layui-btn-warm" id="postedit" type="button">写文章</button>
     	</li>
       <li class="layui-nav-item">
-        <a href="javascript:;">
+        <a href="../usercenter/${account.userid }">
           <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-          ${user.username }
+          ${account.username }
         </a>
         <dl class="layui-nav-child">
           <dd><a href="">基本资料</a></dd>

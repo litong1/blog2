@@ -5,6 +5,11 @@ import com.lt.blog.pojo.UserCount;
 public interface UserCountMapper {
 
 	/**
+	 * 增加用户统计
+	 * @param usercount
+	 */
+	public void addUserCount(Integer userid);
+	/**
 	 * 通过id获取UsercCount
 	 * @param userid
 	 * @return

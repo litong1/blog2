@@ -42,7 +42,7 @@
 			<input type="text">
 			<li class="layui-nav-item "><a href="postedit">写博客</a></li>
 			<li class="layui-nav-item "><a href="">发动态</a></li>
-			<li class="layui-nav-item"><a href="usercenter"><img
+			<li class="layui-nav-item"><a href="usercenter/${article.article_userid }"><img
 						src="${user.useravatar }" class="layui-nav-img">${account.username}</a>
 					<dl class="layui-nav-child">
 						<dd>
@@ -78,9 +78,9 @@
 						<c:forEach items="${alist}" var="a" varStatus="st">
 							<div class="bloglist" style="width:100%;height:100px;
 							border: 1px solid #2F4056;margin-bottom: 5px;vertical-align:middle;">
-								<div style="float: left;padding: 13px;">
-									
-									<p><font style="font-size:20px; font-weight: bold;">${a.articletitle}</font></p>
+								<div class="articleinfo" style="float: left;padding: 13px;">
+									<input type="hidden" class="articleid" value="${a.articleid }">
+									<p><a href="article/${a.articleid}" ><font style="font-size:20px; font-weight: bold;">${a.articletitle}</font></a></p>
 									<p style="margin-top: 15px;"><span style="color:#01AAED;padding-right: 10px;">${a.article_blogcategory }</span>
 										<a href="usercenter">
 											<img src="${a.article_useravatar }"
@@ -148,6 +148,7 @@ layui.use('laypage', function(){
 	      }
 	  });
 	});
+
 function userRegister(){
 	 window.location.href="postedit";
 }

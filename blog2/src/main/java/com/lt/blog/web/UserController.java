@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,14 +31,11 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
-	@RequestMapping(value = "/usercenter", method = RequestMethod.GET)
-	public ModelAndView traRegister(HttpServletRequest request) {
+	@RequestMapping(value = "/usercenter/{userid:\\d+}", method = RequestMethod.GET)
+	public ModelAndView traRegister(@PathVariable("userid") Integer userid) {
 
 		ModelAndView mav = new ModelAndView();
-		HttpSession session = request.getSession();
-		Account ac = (Account) session.getAttribute("account");
-		System.out.println(ac.toString());
-		User user = userService.getUserById(ac.getUserid());
+		User user = userService.getUserById(userid);
 		mav.addObject("user",user );
 		System.out.println(user.toString());
 		System.out.println("user_sex:" + user.getUser_sex());
