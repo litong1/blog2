@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lt.blog.mapper.MessageBoardMapper">
+	<insert id="addMessage" parameterType="MessageBoard">
+		insert into message_board(message_master_id,message_master_name,message_master_avatar,
+								message_user_id,message_user_name,message_user_avatar,message_time,
+								messagecontent,message_is_private) values(
+								#{message_master_id},#{message_master_name},#{message_master_avatar},
+								#{message_user_id},#{message_user_name},#{message_user_avatar},#{message_time},
+								#{messagecontent},#{message_is_private});
+	</insert>
+	<delete id="deleteMessage" parameterType="int">
+		delete from message_board where messageid=#{messageid}
+	</delete>
+	<select id="messageList" parameterType="int">
+		select * from message_board where userid=#{userid} order by desc
+	</select>
+</mapper>

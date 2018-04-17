@@ -8,6 +8,27 @@
 <!-- 包含头部信息用于适应不同设备 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../layui/css/layui.css">
+<style>
+dl{
+	display: inline-block;
+    width: 21%;
+    text-align: center;
+}
+dt{
+	font-size: 14px;
+    color: #788087;
+}
+dd{
+	color: #4f4f4f;
+    width: 100%;
+    overflow: hidden;
+}
+dd,dl,dt{
+	list-style: none;
+    margin: 0;
+    padding: 0;
+}
+</style>
 <title>${ar.articletitle }-灵通博客</title>
 </head>
 <body class="layui-layout-body" style="background-color: #f5f6f7;">
@@ -31,7 +52,7 @@
 			<li class="layui-nav-item "><a href="postedit">写博客</a></li>
 			<li class="layui-nav-item "><a href="">发动态</a></li>
 			<li class="layui-nav-item"><a href="../usercenter/${account.userid }"><img
-						src="${user.useravatar }" class="layui-nav-img">${account.username}</a>
+						src="../${user.useravatar }" class="layui-nav-img">${account.username}</a>
 					<dl class="layui-nav-child">
 						<dd>
 							<a href="javascript:;">修改信息</a>
@@ -46,7 +67,7 @@
 			</li>
 		</ul>
 	</div>
-		<div style="margin: 0 auto;width: 60%;min-height:200px;height: auto;">			
+		<div style="margin: 0 auto;width: 60%;min-height:200px;height: auto;line-height: 24px;">			
 			<!-- 内容主体 -->
 			<div class="oparation">
 				
@@ -55,19 +76,23 @@
 			min-height:200px;height: auto;margin-top:18px;
 			display: inline-block;">
 				<div class="header">
-					<h1>${article.articletitle }</h1>
-					<div style="float: left">
-						<span style="border: 1px solid #f2f2f2;">${article.articletype }</span>
-						<span><fmt:formatDate value="${article.article_post_time}" pattern="yyyy-MM-dd hh:mm:ss" />
+					<h1 style="margin: 20px;">${article.articletitle }</h1>
+					<div style="float: left;margin-left:20px;margin-bottom: 15px;">
+						<div style="display:inline; border: 1px solid #e4ebf4; padding: 2px 6px;
+    					font-size: 14px;color: #78909c;margin-right: 20px">
+    					${article.articletype }
+    					</div>
+						<span style="color: #bbb;font-size: 14px;"><fmt:formatDate value="${article.article_post_time}" pattern="yyyy-MM-dd hh:mm:ss" />
 						</span>
-						<span>${article.article_tag }</span>
+						<span style="padding-left:20px; color: #4093c6;">${article.article_tag }</span>
 					</div>
-					<div style="float: right">
+					<div style="float: right;margin-right: 30px;line-height: 24px;font-size: 14px;color: #888;" >
+						<i class="layui-icon">&#xe705;</i>
 						<span>666</span>
 					</div>
 					<hr>
 				</div>
-				<div class="content">
+				<div class="content" style="margin-bottom: 30px;color: #454545;padding: 20px 30px 0;word-wrap: break-word;">
 					${article.articlecontent }
 				</div>
 				<div class="comment">
@@ -77,29 +102,32 @@
 			min-height:200px;height: auto;margin-top:18px;
 			display: inline-block;margin-left: 10px;vertical-align: top;">
 				<div>
-					<div>
-						<a href="../usercenter/${article.article_userid }"><img
-						src="${article.article_useravatar }" class="layui-nav-img">${article.article_username}</a>
-						<button>关注</button>
+					<div style="width: 100%;height: auto;margin: 20px;">
+						<a href="../usercenter/${article.article_userid }">
+							<img src="../${article.article_useravatar }" width="64px" height="64px">
+							<span style="padding-left: 10px;padding-right: 35px;">${article.article_username}</span>
+						</a>
+						<button class="layui-btn layui-btn-sm layui-btn-warm">关注</button>
 					</div>
 				</div>
-				<div style="width: 100%;height: 60px;">
-					<div style="display: inline-block;">
-						<p>原创</p>
-						<p>1</p>
-					</div>
-					<div style="display: inline-block;">
-						<p>粉丝</p>
-						<p>1</p>
-					</div>
-					<div style="display: inline-block;">
-						<p>喜欢</p>
-						<p>1</p>
-					</div>
-					<div style="display: inline-block;">
-						<p>评论</p>
-						<p>1</p>
-					</div>
+				<div style="width: 100%;height: 60px;text-align: center;border-bottom: 1px solid #e6e6e6;
+							border-top: 1px solid #e6e6e6;padding-bottom: 8px;padding-top: 16px;">
+					<dl >
+						<dt>原创</dt>
+						<dd>1</dd>
+					</dl>
+					<dl >
+						<dt>粉丝</dt>
+						<dd>1</dd>
+					</dl>
+					<dl >
+						<dt>喜欢</dt>
+						<dd>1</dd>
+					</dl>
+					<dl >
+						<dt>评论</dt>
+						<dd>1</dd>
+					</dl>
 				</div>
 				<div class="new">
 				</div>

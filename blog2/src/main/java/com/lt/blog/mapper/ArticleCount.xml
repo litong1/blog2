@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.lt.blog.mapper.ArticleCountMapper">
+		<insert id="addArticleCount" parameterType="int">
+			insert into blog_article_count (articleid) values(#{articleid});
+		</insert>
+	    <select id="getArticleCountByArticleId" parameterType="_int" resultType="ArticleCount">
+	        select * from blog_article_count where articleid= #{articleid}    
+	    </select>
+	    <select id="getArticleCountByUserId" parameterType="_int" resultType="ArticleCount">
+	        select * from blog_article_count where userid= #{userid}    
+	    </select>
+	    
+	    <update id="addArticleViewCount" parameterType="ArticleCount">
+	    	update blog_article_count set article_view_count= #{article_view_count} + 1
+	    	where articleid= #{articleid}
+	    </update>
+	     <update id="addArticleCollectedCount" parameterType="ArticleCount">
+	    	update blog_article_count set article_collected_count= #{article_collected_count} + 1
+	    	where articleid= #{articleid}
+	    </update>
+	     <update id="addArticleCommentedCount" parameterType="ArticleCount">
+	    	update blog_article_count set article_commented_count= #{article_commented_count} + 1
+	    	where articleid= #{articleid}
+	    </update>
+	     <update id="addArticleLikedCount" parameterType="UserCount">
+	    	update blog_article_count set article_liked_count= #{article_liked_count} + 1
+	    	where articleid= #{articleid}
+	    </update>
+	</mapper>

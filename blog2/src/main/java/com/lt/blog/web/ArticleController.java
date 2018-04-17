@@ -124,6 +124,8 @@ public class ArticleController {
 		//获取用户统计信息
 		System.out.println(ar.toString());
 		UserCount uc = userCountService.getUserCountById(ar.getArticle_userid());
+		//获取用户信息
+		User user = userService.getUserById(ar.getArticle_userid());
 		//获取用户最新五篇文章信息
 //		Jedis jedis = RedisApi.getJedis();
 //		String articleidList = jedis.hget("", String.valueOf(ar.getArticle_userid()));
@@ -136,6 +138,7 @@ public class ArticleController {
 //		}
 		ModelAndView mav = new ModelAndView();
 		// 放入转发参数
+		mav.addObject("user", user);
 		mav.addObject("userCount", uc);
 		mav.addObject("article", ar);
 		//mav.addObject("newarList",articleidList);
