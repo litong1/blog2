@@ -8,6 +8,9 @@
 <!-- 包含头部信息用于适应不同设备 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="../css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="../css/default.css">
+<link rel="stylesheet" type="text/css" href="../css/style.css"/>
 <style>
 dl{
 	display: inline-block;
@@ -67,12 +70,19 @@ dd,dl,dt{
 			</li>
 		</ul>
 	</div>
-		<div style="margin: 0 auto;width: 60%;min-height:200px;height: auto;line-height: 24px;">			
+		<div style="margin: 0 auto;width: 65%;min-height:200px;height: auto;line-height: 24px;">			
 			<!-- 内容主体 -->
-			<div class="oparation">
-				
+			<div class="oparation" style="background-color: #fff;width: 10%;
+			min-height:200px;height: auto;margin-top:18px;
+			display: inline-block;vertical-align: top;">
+				<div>
+					<div class="heart " id="like" rel="like">					
+					</div>
+					<div class="likeCount" id="likeCount">${articleCount.article_liked_count }</div>
+					<input type="hidden" id="articleid" value="${article.articleid}">
+				</div>			
 			</div>
-			<div class="article" style="background-color: #fff;width: 65%;
+			<div class="article" style="background-color: #fff;width: 60%;
 			min-height:200px;height: auto;margin-top:18px;
 			display: inline-block;">
 				<div class="header">
@@ -98,7 +108,7 @@ dd,dl,dt{
 				<div class="comment">
 				</div>
 			</div>
-			<div class="person" style="background-color: #fff;width: 30%;
+			<div class="person" style="background-color: #fff;width: 25%;
 			min-height:200px;height: auto;margin-top:18px;
 			display: inline-block;margin-left: 10px;vertical-align: top;">
 				<div>
@@ -149,10 +159,61 @@ layui.use('element', function(){
 	  
 	  //…
 	});
-$(".usercenter").click(function(){
-	var userid = $(this).prev().val();
+$("#like").click(function(){
 	
-});
+	var count = parseInt($("#likeCount").html());
+		$(this).css("background-position", "");
+		var articleid = $("#articleid").val();
+		var rel = $(this).attr("rel");
+		if (rel === 'like') {
+			//ajax
+			$.ajax({
+					url:"../addLikeNum",
+					method:"post",
+					async: true,
+					data:{
+					method : "put",
+					articleid:articleid,
+					article_like_count:count
+					},
+					dataType : "json",
+					success : function(data) {					
+						$("#likeCount").html(data.arcount);															
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+	                alert(XMLHttpRequest.readyState);
+	                alert(textStatus);
+				}
+			});
+			
+			$(this).addClass("heartAnimation").attr("rel", "unlike");
+
+		} else {
+				$.ajax({
+					url:"../cancelLikeNum",
+					method:"post",
+					async: true,
+					data:{
+					method : "put",
+					articleid:articleid,
+					article_like_count:count
+					},
+					dataType : "json",
+					success : function(data) {
+						
+						$("#likeCount").html(data.arcount);															
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+	                alert(XMLHttpRequest.readyState);
+	                alert(textStatus);
+				}
+			});
+			$(this).removeClass("heartAnimation").attr("rel", "like");
+			$(this).css("background-position", "left");
+		}
+	});
 </script>
 </body>
 </html>

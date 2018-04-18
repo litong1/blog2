@@ -54,4 +54,11 @@ public class ArticleCountServiceImpl implements ArticleCountService {
 		
 	}
 
+	@Override
+	public void cancelArticleLikedCount(ArticleCount articleCount) {
+		mapper.cancelArticleLikedCount(articleCount);
+		
+	}
+	
+
 }

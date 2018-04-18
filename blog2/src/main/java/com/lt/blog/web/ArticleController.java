@@ -16,10 +16,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lt.blog.db.RedisApi;
+import com.lt.blog.pojo.Account;
 import com.lt.blog.pojo.Article;
+import com.lt.blog.pojo.ArticleCount;
 import com.lt.blog.pojo.Category;
 import com.lt.blog.pojo.User;
 import com.lt.blog.pojo.UserCount;
+import com.lt.blog.service.ArticleCountService;
 import com.lt.blog.service.ArticleService;
 import com.lt.blog.service.CategoryService;
 import com.lt.blog.service.UserCountService;
@@ -41,6 +44,8 @@ public class ArticleController {
 	UserService userService;
 	@Autowired
 	UserCountService userCountService;
+	@Autowired
+	ArticleCountService articleCountService;
 	@RequestMapping(value = "/postedit", method = RequestMethod.GET)
 	public ModelAndView traPostedit() {
 
@@ -91,6 +96,12 @@ public class ArticleController {
 			ucount = userCountService.getUserCountById(userid);
 		}
 		userCountService.addOriginalnum(ucount);
+		
+		//文章统计初始化
+		ArticleCount arcount = new ArticleCount();
+		arcount.setArticleid(article.getArticleid());
+		arcount.setUserid(userid);
+		articleCountService.addArticleCount(arcount);
 		//添加新个人分类
 		List<Category> catlist = categoryService.listCategory(userid);
 		List<String> beCatnameList = new ArrayList<>();
@@ -121,8 +132,9 @@ public class ArticleController {
 		System.out.println(articleid);
 		//获取文章信息
 		Article ar = articleService.getArticleById(articleid);
+		//获取文章统计信息
+		ArticleCount arcount = articleCountService.getArticleCountByArticleId(articleid);
 		//获取用户统计信息
-		System.out.println(ar.toString());
 		UserCount uc = userCountService.getUserCountById(ar.getArticle_userid());
 		//获取用户信息
 		User user = userService.getUserById(ar.getArticle_userid());
@@ -139,11 +151,32 @@ public class ArticleController {
 		ModelAndView mav = new ModelAndView();
 		// 放入转发参数
 		mav.addObject("user", user);
+		mav.addObject("articleCount",arcount);
 		mav.addObject("userCount", uc);
 		mav.addObject("article", ar);
 		//mav.addObject("newarList",articleidList);
 		mav.setViewName("article/article");
 		return mav;
+	}
+	@RequestMapping(value = "/addLikeNum", method=RequestMethod.POST,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public JSONObject addLikeNum(ArticleCount artilcleCount){
+		articleCountService.addArticleLikedCount(artilcleCount);
+		ArticleCount count = articleCountService.getArticleCountByArticleId(artilcleCount.getArticleid());
+		JSONObject json = new JSONObject();
+		json.put("arcount", count);
+		return json;
+		
+	}
+	@RequestMapping(value = "/cancelLikeNum", method=RequestMethod.POST,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public JSONObject cancelLikeNum(ArticleCount artilcleCount){
+		articleCountService.cancelArticleLikedCount(artilcleCount);
+		ArticleCount count = articleCountService.getArticleCountByArticleId(artilcleCount.getArticleid());
+		JSONObject json = new JSONObject();
+		json.put("arcount", count);
+		return json;
+		
 	}
 	@RequestMapping(value = "/article", method = RequestMethod.GET)
 	public ModelAndView traArticle() {

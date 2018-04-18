@@ -125,8 +125,9 @@ public class AccountController {
 		Account ac = (Account) session.getAttribute("account");
 		System.out.println(ac.toString());
 		User user = userService.getUserById(ac.getUserid());
-		mav.addObject("user",user );
+		
 		// 放入转发参数
+		mav.addObject("user",user );
 		mav.addObject("alist", alist);
 		mav.setViewName("index");
 		return mav;
