@@ -9,15 +9,44 @@
 <!-- 包含头部信息用于适应不同设备 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-.articletitle{
-	
-	
-	
+.bloglist {
+	width: 100%;
+	height: 100px;
+	border: 1px solid #2F4056;
+	margin-bottom: 5px;
+	vertical-align: middle;
 }
-.bloglist{
+.articleinfo {
+	float: left;
+	padding: 13px;
+}
+.articletitle {
 	
 }
 
+.bloglist {
+	
+}
+.read {
+	float: right;
+	margin-top: 7px;
+	padding: 10px;
+}
+.arusername{
+	margin-right: 10px;
+	padding-left: 5px;
+}
+.category{
+	margin-top: 15px;
+}
+.artitle{
+	font-size:20px;
+	font-weight: bold;
+}
+.blogcat{
+	color:#01AAED;
+	padding-right: 10px;
+}
 </style>
 <link rel="stylesheet" href="layui/css/layui.css">
 <title>首页</title>
@@ -75,35 +104,14 @@
 			<div class="layui-body" >
 				<div class="main" style="margin: 0 auto;">
 					<div class="bodyleft" style="width: 50%; float: left;margin-left: 50px;">
-						<c:forEach items="${alist}" var="a" varStatus="st">
-							<div class="bloglist" style="width:100%;height:100px;
-							border: 1px solid #2F4056;margin-bottom: 5px;vertical-align:middle;">
-								<div class="articleinfo" style="float: left;padding: 13px;">
-									<input type="hidden" class="articleid" value="${a.articleid }">
-									<p><a href="article/${a.articleid}" ><font style="font-size:20px; font-weight: bold;">${a.articletitle}</font></a></p>
-									<p style="margin-top: 15px;"><span style="color:#01AAED;padding-right: 10px;">${a.article_blogcategory }</span>
-										<a href="usercenter">
-											<img src="${a.article_useravatar }"
-												class="layui-nav-img">
-												<span style="margin-right: 10px;padding-left: 5px;">${a.article_username}</span>
-										</a>
-										<fmt:formatDate value="${a.article_post_time}"
-											pattern="yyyy-MM-dd hh:mm:ss" />
-									</p>
-								</div>
-								<div style="float: right;margin-top: 7px;padding: 10px;">
-									<div>
-									</div>
-									<p style="color:#01AAED ">1</p>
-									<p style="margin-top: 16px;">阅读量</p>
-								</div>
-								
-							</div>
-						</c:forEach>
-						<div>
-						</div>
+						
+						
+						
 					</div>
-					
+					<div class="admin-table-page" style="float: left;">
+							<div id="paged" class="page">
+							</div>
+						</div>
 					<div class="bodyright" style="width: 10%; float: right;">
 						<div>今日推荐</div>
 						<div style="width: 100%; height: 300px; background-color: orange;">
@@ -121,7 +129,7 @@
 	</div>
  <!--<p ><font color="red">${user.userid}</font></p> -->
 <!-- <button class="layui-btn layui-btn-lg layui-btn-warm" id="register" type="button" onclick="userRegister()" >写文章</button> -->
-<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <script src="layui/layui.js"></script>
 <script type="text/javascript">
 layui.use('element', function(){
@@ -129,25 +137,64 @@ layui.use('element', function(){
 	});
 layui.use('laypage', function(){
 	  var laypage = layui.laypage;
-	  
-	  //执行一个laypage实例
-	  laypage.render({
-	    elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
-	    ,count: 50 //数据总数，从服务端得到
-	    ,jump: function(obj, first){
-	        //obj包含了当前分页的所有参数，比如：
-	        console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-	        var curr = obj.curr;
-	        console.log(obj.limit); //得到每页显示的条数
-	        var limit = obj.limit;
-	        
-	        //首次不执行
-	        if(!first){
-	          //do something
-	        }
+	  var url = "articleList";
+	  var config = {page:1,pageSize:2};
+	  $.getJSON(url,config,function(res){
+	   laypage.render({
+	      elem: 'paged',
+	      count: res.total, //总条数
+	      limit:config.pageSize, //每页条数
+	      theme: '#FFB800', //自定义颜色
+	      jump: function(obj, first){
+	          if(!first){ //首次则不进入
+	           config.page = obj.curr;
+	           getArticleListByPage(url,config);
+	          }
 	      }
+	    });
+	   parseArticleList(res,config.page);  
 	  });
 	});
+//点击页数从后台获取数据
+function getArticleListByPage(url,config){
+ $.getJSON(url,config,function(res){
+  parseArticleList(res,config.page);
+ });
+}
+//解析数据，currPage参数为预留参数，当删除一行刷新列表时，可以记住当前页而不至于显示到首页去
+function parseArticleList(res,currPage){
+ var content = "";
+ 	console.log(res);
+	$.each(res.rows,function(v,o){
+		console.log(o.article_post_time);
+		content+= "<div class='bloglist' >"+
+		"<div class='articleinfo' >"+
+		"<input type='hidden' class='articleid' value='"+o.articleid+"'>"+
+		"<p><a href='article/"+o.articleid+" ><font class='artitle' >"+o.articletitle+"</font></a></p>"+
+		"<p class='category'><span class='blogcat' >"+o.article_blogcategory+"</span>"+
+			"<a href='usercenter'>"+
+				"<img src='"+o.article_useravatar+"'class='layui-nav-img'>"+
+					"<span class='arusername' >"+o.article_username+"</span>"+
+			"</a>"+
+
+		"</p>"+
+	"</div>"+
+	"<div class='read' >"+
+		"<div>"+
+		"</div>"+
+		"<p style='color:#01AAED '>1</p>"+
+		"<p style='margin-top: 16px;'>阅读量</p>"+
+	"</div>"+						
+"</div>";
+	});
+	if(res.total>0){
+		$(".bodyleft").html(content);
+	}else{
+		$("#paged").hide();
+		$("#.bodyleft").html("<br/><span style='width:10%;height:30px;display:block;margin:0 auto;'>暂无数据</span>");
+	}
+	
+}
 
 function userRegister(){
 	 window.location.href="postedit";

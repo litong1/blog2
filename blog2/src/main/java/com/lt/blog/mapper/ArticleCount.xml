@@ -4,8 +4,8 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 	<mapper namespace="com.lt.blog.mapper.ArticleCountMapper">
-		<insert id="addArticleCount" parameterType="int">
-			insert into blog_article_count (articleid) values(#{articleid});
+		<insert id="addArticleCount" parameterType="ArticleCount">
+			insert into blog_article_count (articleid,userid) values(#{articleid},#{userid});
 		</insert>
 	    <select id="getArticleCountByArticleId" parameterType="_int" resultType="ArticleCount">
 	        select * from blog_article_count where articleid= #{articleid}    

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -41,7 +42,7 @@ dd,dl,dt{
 		<div class="layui-logo" >
 		     LTBLOG     </div>
 		<ul class="layui-nav layui-layout-left" lay-filter="">
-			<li class="layui-nav-item layui-this"><a href="index">博客</a></li>
+			<li class="layui-nav-item layui-this"><a href="../index">博客</a></li>
 			<li class="layui-nav-item "><a href="">下载</a></li>
 			<li class="layui-nav-item"><a href="">动态</a></li>
 			<li class="layui-nav-item"><a href="javascript:;">留言板</a>
@@ -76,8 +77,18 @@ dd,dl,dt{
 			min-height:200px;height: auto;margin-top:18px;
 			display: inline-block;vertical-align: top;">
 				<div>
-					<div class="heart " id="like" rel="like">					
-					</div>
+					<c:choose>
+					<c:when test="${isLike }">
+						<div class="layui-anim-scaleSpring heart" id="like" rel="unlike" style="background-position: right;"></div>					
+						</c:when>
+						<c:otherwise>
+							<div class="layui-anim-scaleSpring heart " id="like" rel="like" style="background-position: left;"></div>
+						</c:otherwise>
+					</c:choose>
+						
+					
+										
+					
 					<div class="likeCount" id="likeCount">${articleCount.article_liked_count }</div>
 					<input type="hidden" id="articleid" value="${article.articleid}">
 				</div>			
@@ -124,19 +135,19 @@ dd,dl,dt{
 							border-top: 1px solid #e6e6e6;padding-bottom: 8px;padding-top: 16px;">
 					<dl >
 						<dt>原创</dt>
-						<dd>1</dd>
+						<dd>${userCount.user_original_num }</dd>
 					</dl>
 					<dl >
 						<dt>粉丝</dt>
-						<dd>1</dd>
+						<dd>${userCount.user_liked_num }</dd>
 					</dl>
 					<dl >
 						<dt>喜欢</dt>
-						<dd>1</dd>
+						<dd>${userCount.user_commented_num }</dd>
 					</dl>
 					<dl >
 						<dt>评论</dt>
-						<dd>1</dd>
+						<dd>${userCount.user_visitted_num }</dd>
 					</dl>
 				</div>
 				<div class="new">
@@ -151,7 +162,7 @@ dd,dl,dt{
 		</div>
 		
 	</div>
-<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="../js/jquery.min.js"></script>
 <script src="../layui/layui.js"></script>
 <script type="text/javascript">
 layui.use('element', function(){
@@ -162,9 +173,11 @@ layui.use('element', function(){
 $("#like").click(function(){
 	
 	var count = parseInt($("#likeCount").html());
+	console.log(count);
 		$(this).css("background-position", "");
 		var articleid = $("#articleid").val();
 		var rel = $(this).attr("rel");
+		console.log(rel);
 		if (rel === 'like') {
 			//ajax
 			$.ajax({
@@ -172,13 +185,39 @@ $("#like").click(function(){
 					method:"post",
 					async: true,
 					data:{
-					method : "put",
+					_method : "put",
 					articleid:articleid,
-					article_like_count:count
+					article_liked_count:count
 					},
 					dataType : "json",
-					success : function(data) {					
-						$("#likeCount").html(data.arcount);															
+					success : function(data) {
+						console.log(data);
+						$("#likeCount").html(data.arcount);	
+						$("#like").addClass("heartAnimation").attr("rel", "unlike");
+						$("#like").css("background-position","right");
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+	                alert(XMLHttpRequest.readyState);
+	                alert(textStatus);
+				}
+			});
+		} else {
+				$.ajax({
+					url:"../cancelLikeNum",
+					method:"post",
+					async: true,
+					data:{
+					_method : "put",
+					articleid:articleid,
+					article_liked_count:count
+					},
+					dataType : "json",
+					success : function(data) {
+						console.log(data);
+						$("#likeCount").html(data.arcount);	
+						$("#like").removeClass("heartAnimation").attr("rel", "like");
+						$("#like").css("background-position", "left");
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
 					alert(XMLHttpRequest.status);
@@ -187,31 +226,6 @@ $("#like").click(function(){
 				}
 			});
 			
-			$(this).addClass("heartAnimation").attr("rel", "unlike");
-
-		} else {
-				$.ajax({
-					url:"../cancelLikeNum",
-					method:"post",
-					async: true,
-					data:{
-					method : "put",
-					articleid:articleid,
-					article_like_count:count
-					},
-					dataType : "json",
-					success : function(data) {
-						
-						$("#likeCount").html(data.arcount);															
-				},
-				error : function(XMLHttpRequest, textStatus, errorThrown) {
-					alert(XMLHttpRequest.status);
-	                alert(XMLHttpRequest.readyState);
-	                alert(textStatus);
-				}
-			});
-			$(this).removeClass("heartAnimation").attr("rel", "like");
-			$(this).css("background-position", "left");
 		}
 	});
 </script>

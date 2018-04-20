@@ -16,7 +16,7 @@ public class ArticleCountServiceImpl implements ArticleCountService {
 	@Override
 	public void addArticleCount(ArticleCount articleCount) {
 		
-		mapper.addArticleCollectedCount(articleCount);
+		mapper.addArticleCount(articleCount);
 	}
 
 	@Override

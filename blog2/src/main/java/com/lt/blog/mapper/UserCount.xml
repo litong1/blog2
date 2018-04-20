@@ -4,7 +4,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 	<mapper namespace="com.lt.blog.mapper.UserCountMapper">
-		<insert id="addCount" parameterType="int">
+		<insert id="addUserCount" parameterType="int">
 			insert into blog_user_count (userid) values(#{userid});
 		</insert>
 	    <select id="getUserCountById" parameterType="_int" resultType="UserCount">

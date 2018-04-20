@@ -74,4 +74,11 @@ public interface ArticleMapper {
 	 */
 	public List<Integer> getNewArticleList(Integer article_userid);
 	
+	/**
+	 * 发布时获取文章id
+	 * @param userid
+	 * @return
+	 */
+	public Integer getArticleidPublish(Integer article_userid);
+	
 }

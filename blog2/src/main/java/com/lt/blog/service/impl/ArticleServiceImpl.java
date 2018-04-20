@@ -84,6 +84,12 @@ public class ArticleServiceImpl implements ArticleService {
 		// TODO Auto-generated method stub
 		return mapper.getNewArticleList(article_userid);
 	}
+
+	@Override
+	public Integer getArticleidPublish(Integer article_userid) {
+		
+		return mapper.getArticleidPublish(article_userid);
+	}
 	
 
 }

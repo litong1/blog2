@@ -33,4 +33,7 @@
 	<select id="getNewArticleList" parameterType="int" resultType="int">
 		select articleid from blog_article_count limit 5 where article_userid=#{article_userid} order by article_post_time desc; 
 	</select>
+	<select id="getArticleidPublish" parameterType="int" resultType="int">
+		select articleid from blog_article_count limit 1 where article_userid=#{article_userid} order by article_post_time desc
+	</select>
 </mapper>
