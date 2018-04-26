@@ -1,5 +1,7 @@
 package com.lt.blog.mapper;
 
+import java.util.List;
+
 import com.lt.blog.pojo.UserCollect;
 
 public interface UserCollectMapper {
@@ -20,5 +22,11 @@ public interface UserCollectMapper {
 	 * @param userCollect
 	 * @return
 	 */
-	public UserCollect collect(UserCollect userCollect);
+	public List<Integer> collect(Integer articleid);
+	/**
+	 * 获取用户收藏列表
+	 * @param userid
+	 * @return
+	 */
+	public List<Integer> getCollectListByUserid(Integer userid);
 }

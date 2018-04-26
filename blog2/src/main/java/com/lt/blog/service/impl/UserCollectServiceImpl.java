@@ -1,5 +1,7 @@
 package com.lt.blog.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +26,17 @@ public class UserCollectServiceImpl implements UserCollectService {
 	}
 
 	@Override
-	public UserCollect collect(UserCollect userCollect) {
-
-		return mapper.collect(userCollect);
+	public List<Integer> collect(Integer articleid) {
+		
+		return mapper.collect(articleid);
 	}
+
+	@Override
+	public List<Integer> getCollectListByUserid(Integer userid) {
+		
+		return mapper.getCollectListByUserid(userid);
+	}
+
+	
 
 }

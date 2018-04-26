@@ -29,5 +29,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Apollo"/>
+	<classpathentry kind="lib" path="C:/apollo-build-scripts-master/client/apollo-demo.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

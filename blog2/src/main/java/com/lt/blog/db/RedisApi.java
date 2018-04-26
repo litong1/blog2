@@ -10,16 +10,17 @@ import redis.clients.jedis.JedisPoolConfig;
 
 public class RedisApi {
 
-	
-
 	private static JedisPool pool = null;
-	private static Config config = ConfigService.getAppConfig();
 	public static JedisPool getPool() {
-		String ip = config.getProperty("redisIp", "127.0.0.1");
-		int port = config.getIntProperty("redisPort", 6379);
+//		Config config = ConfigService.getAppConfig();
+//		String ip = config.getProperty("redisIp", "127.0.0.1");
+//		int port = config.getIntProperty("redisPort", 6379);
+//		String passwd = config.getProperty("redisPasswd", "19970622");
+//		System.out.println(ip+","+port+","+passwd);
 		if (pool == null) {
-			JedisPoolConfig config = GetRedisConfig();			
-				pool = new JedisPool(config, ip, port, 300000);			
+			JedisPoolConfig redisconfig = GetRedisConfig();		
+				pool = new JedisPool(redisconfig, "127.0.0.1", 6379, 300000,"19970622");			
+				//pool = new JedisPool(redisconfig, ip, port, 300000,passwd);			
 		}
 		return pool;
 
@@ -37,5 +38,9 @@ public class RedisApi {
 		config.setMaxWaitMillis(Constant.CONFIG_REDIS_MAX_WAIT);
 		config.setTestOnBorrow(Constant.CONFIG_REDIS_TEST_BORROW);
 		return config;
+	}
+	public static void main(String[] args) {
+		Jedis jedis = RedisApi.getJedis();
+		System.out.println(jedis==null);
 	}
 }

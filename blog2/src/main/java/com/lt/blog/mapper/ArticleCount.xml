@@ -34,4 +34,9 @@
 	    	update blog_article_count set article_liked_count= #{article_liked_count} - 1
 	    	where articleid= #{articleid}
 	    </update>
+	    <update id="cancelArticleCollectedCount" parameterType="ArticleCount">
+	    	update blog_article_count set article_collected_count= #{article_collected_count} - 1
+	    	where articleid= #{articleid}
+	    </update>
+	   
 	</mapper>

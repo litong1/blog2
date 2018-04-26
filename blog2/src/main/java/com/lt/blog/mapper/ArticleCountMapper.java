@@ -48,4 +48,9 @@ public interface ArticleCountMapper {
 	 * @param articleCount
 	 */
 	public void cancelArticleLikedCount(ArticleCount articleCount);
+	/**
+	 * 取消文章收藏
+	 * @param articleCount
+	 */
+	public void cancelArticleCollectedCount(ArticleCount articleCount);
 }

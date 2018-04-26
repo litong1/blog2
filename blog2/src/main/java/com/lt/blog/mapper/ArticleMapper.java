@@ -29,7 +29,12 @@ public interface ArticleMapper {
 	 * @return
 	 */
 	public Article getArticleById(Integer articleid);
-	
+	/**
+	 * 获取用户所有博客
+	 * @param article_userid
+	 * @return
+	 */
+	public List<Article> getArticleListByUserid(Integer article_userid);
 	/**
 	 * 获取最新文章列表
 	 * @return

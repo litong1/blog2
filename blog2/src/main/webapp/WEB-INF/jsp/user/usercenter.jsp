@@ -112,7 +112,7 @@ background-color:#f2f2f2;
 			<li class="layui-nav-item "><a href="">写博客</a></li>
 			<li class="layui-nav-item "><a href="">发动态</a></li>
 			<li class="layui-nav-item"><a href=""><img
-						src="${user.useravatar }" class="layui-nav-img">${account.username }</a>
+						src="../${user.useravatar }" class="layui-nav-img">${account.username }</a>
 					<dl class="layui-nav-child">
 						<dd>
 							<a href="javascript:;">修改信息</a>
@@ -222,12 +222,28 @@ background-color:#f2f2f2;
 					<li>我的关系</li>
 				</ul>
 				<div class="layui-tab-content" style="height: 100px;">
-					<div class="layui-tab-item layui-show">1</div>
-					<div class="layui-tab-item">2</div>
-					<div class="layui-tab-item">3</div>
-					<div class="layui-tab-item">4</div>
-					<div class="layui-tab-item">5</div>
-					<div class="layui-tab-item">6</div>
+					<div class="layui-tab-item layui-show">
+						<c:forEach var="ar" items="${arList}" varStatus="i">
+							<p>${ar.articletitle }</p>
+						</c:forEach>
+					</div>
+					<div class="layui-tab-item">
+						<c:forEach var="co" items="${coList}" varStatus="i">
+							<p>${co.articletitle }</p>
+						</c:forEach>
+					</div>
+					<div class="layui-tab-item">
+					</div>
+					<div class="layui-tab-item">
+						我关注的
+						<c:forEach var="follow" items="${followList}" varStatus="i">
+								<p>${follow.username }</p>
+						</c:forEach>
+						我的粉丝
+						<c:forEach var="fans" items="${fansList}" varStatus="i">
+								<p>${fans.username }</p>
+						</c:forEach>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -236,7 +252,7 @@ background-color:#f2f2f2;
  <!--<p ><font color="red">${user.userid}</font></p> -->
 <!-- <button class="layui-btn layui-btn-lg layui-btn-warm" id="register" type="button" onclick="userRegister()" >写文章</button> -->
 <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="layui/layui.js"></script>
+<script src="../layui/layui.js"></script>
 <script type="text/javascript">
 function getBirthday(birthday) {
 	var d = new Date(birthday);

@@ -1,5 +1,7 @@
 package com.lt.blog.service;
 
+import java.util.List;
+
 import com.lt.blog.pojo.UserCollect;
 
 public interface UserCollectService {
@@ -19,5 +21,11 @@ public interface UserCollectService {
 	 * @param userCollect
 	 * @return
 	 */
-	public UserCollect collect(UserCollect userCollect);
+	public List<Integer> collect(Integer articleid);
+	/**
+	 * 获取用户收藏列表
+	 * @param userid
+	 * @return
+	 */
+	public List<Integer> getCollectListByUserid(Integer userid);
 }

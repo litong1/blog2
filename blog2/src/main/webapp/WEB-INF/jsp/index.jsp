@@ -71,7 +71,7 @@
 			<input type="text">
 			<li class="layui-nav-item "><a href="postedit">写博客</a></li>
 			<li class="layui-nav-item "><a href="">发动态</a></li>
-			<li class="layui-nav-item"><a href="usercenter/${article.article_userid }"><img
+			<li class="layui-nav-item"><a href="usercenter/${account.userid }"><img
 						src="${user.useravatar }" class="layui-nav-img">${account.username}</a>
 					<dl class="layui-nav-child">
 						<dd>
@@ -87,8 +87,8 @@
 			</li>
 		</ul>
 	</div>
-		<div class="layui-body" style="margin: 0 auto">
-			<div>
+		<div  style="margin: 0 auto;width: 75%;min-height:200px;height: auto;">
+			<div style="width: 15%;min-height:250px;height:auto;float: left;">
 				<ul class="layui-nav layui-nav-tree" lay-filter="test">
 					<!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
 					<li class="layui-nav-item layui-nav-itemed"><a
@@ -101,26 +101,25 @@
 				</ul>
 			</div>
 			<!-- 内容主体 -->
-			<div class="layui-body" >
-				<div class="main" style="margin: 0 auto;">
-					<div class="bodyleft" style="width: 50%; float: left;margin-left: 50px;">
+			
+				<div class="main" style="width: 80%;min-height:250px;height:auto; display:inline-block;margin-top: 50px;margin-left:-150px;float: right;">
+					<div class="bodyleft" style="width: 70%;display:inline-block;">
 						
-						
-						
-					</div>
-					<div class="admin-table-page" style="float: left;">
-							<div id="paged" class="page">
-							</div>
+						<div class="arcontent">
 						</div>
-					<div class="bodyright" style="width: 10%; float: right;">
+						<div class="admin-table-page" >
+								<div id="paged" class="page">
+								</div>
+						</div>	
+					</div>
+					
+					<div class="bodyright" style="width: 15%;height:auto;display:inline-block;vertical-align: top;margin-left: 30px;">
 						<div>今日推荐</div>
 						<div style="width: 100%; height: 300px; background-color: orange;">
 
 						</div>
 					</div>
-				</div>
-
-			</div>
+				</div>			
 			
 				
 			
@@ -144,6 +143,7 @@ layui.use('laypage', function(){
 	      elem: 'paged',
 	      count: res.total, //总条数
 	      limit:config.pageSize, //每页条数
+	      layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],
 	      theme: '#FFB800', //自定义颜色
 	      jump: function(obj, first){
 	          if(!first){ //首次则不进入
@@ -170,7 +170,7 @@ function parseArticleList(res,currPage){
 		content+= "<div class='bloglist' >"+
 		"<div class='articleinfo' >"+
 		"<input type='hidden' class='articleid' value='"+o.articleid+"'>"+
-		"<p><a href='article/"+o.articleid+" ><font class='artitle' >"+o.articletitle+"</font></a></p>"+
+		"<p><a href='article/"+o.articleid+"'><font class='artitle' >"+o.articletitle+"</font></a></p>"+
 		"<p class='category'><span class='blogcat' >"+o.article_blogcategory+"</span>"+
 			"<a href='usercenter'>"+
 				"<img src='"+o.article_useravatar+"'class='layui-nav-img'>"+
@@ -188,10 +188,10 @@ function parseArticleList(res,currPage){
 "</div>";
 	});
 	if(res.total>0){
-		$(".bodyleft").html(content);
+		$(".arcontent").html(content);
 	}else{
 		$("#paged").hide();
-		$("#.bodyleft").html("<br/><span style='width:10%;height:30px;display:block;margin:0 auto;'>暂无数据</span>");
+		$(".arcontent").html("<br/><span style='width:10%;height:30px;display:block;margin:0 auto;'>暂无数据</span>");
 	}
 	
 }

@@ -73,25 +73,32 @@ dd,dl,dt{
 	</div>
 		<div style="margin: 0 auto;width: 65%;min-height:200px;height: auto;line-height: 24px;">			
 			<!-- 内容主体 -->
-			<div class="oparation" style="background-color: #fff;width: 10%;
+			<div class="oparation" style="background-color: #fff;width: 13%;
 			min-height:200px;height: auto;margin-top:18px;
 			display: inline-block;vertical-align: top;">
 				<div>
 					<c:choose>
-					<c:when test="${isLike }">
+						<c:when test="${isLike }">
 						<div class="layui-anim-scaleSpring heart" id="like" rel="unlike" style="background-position: right;"></div>					
 						</c:when>
 						<c:otherwise>
 							<div class="layui-anim-scaleSpring heart " id="like" rel="like" style="background-position: left;"></div>
 						</c:otherwise>
-					</c:choose>
-						
-					
-										
-					
+					</c:choose>		
+					<div id="collectCount" style="display: none;">${articleCount.article_collected_count }</div>		
 					<div class="likeCount" id="likeCount">${articleCount.article_liked_count }</div>
 					<input type="hidden" id="articleid" value="${article.articleid}">
-				</div>			
+				</div>	
+				<div>
+					<c:choose >
+						<c:when test="${isCollect }">
+							<div><i class="layui-icon collect" id="collect" rel="uncollect" style="font-size: 30px; color: #1E9FFF;">&#xe658;</i> </div>
+						</c:when>
+						<c:otherwise>
+							<div><i class="layui-icon collect" id="collect" rel="collect" style="font-size: 30px; color: #1E9FFF;">&#xe600;</i> </div>
+						</c:otherwise>
+					</c:choose>
+				</div>		
 			</div>
 			<div class="article" style="background-color: #fff;width: 60%;
 			min-height:200px;height: auto;margin-top:18px;
@@ -128,7 +135,17 @@ dd,dl,dt{
 							<img src="../${article.article_useravatar }" width="64px" height="64px">
 							<span style="padding-left: 10px;padding-right: 35px;">${article.article_username}</span>
 						</a>
-						<button class="layui-btn layui-btn-sm layui-btn-warm">关注</button>
+						<input type="hidden" id="aruserid" value="${article.article_userid }">
+						<input type="hidden" id="userid" value="${account.userid }">
+						<c:choose >
+						<c:when test="${isFollow }">
+							<button class="layui-btn layui-btn-sm layui-btn-warm" id="follow" rel="unfollow">取消关注</button>
+						</c:when>
+						<c:otherwise>
+							<button class="layui-btn layui-btn-sm layui-btn-warm" id="follow" rel="follow">关注</button>
+						</c:otherwise>
+						</c:choose>
+						
 					</div>
 				</div>
 				<div style="width: 100%;height: 60px;text-align: center;border-bottom: 1px solid #e6e6e6;
@@ -151,6 +168,10 @@ dd,dl,dt{
 					</dl>
 				</div>
 				<div class="new">
+				最新文章
+				<c:forEach var="ar" items="${newarList}" varStatus="i">
+				<p>${ar.articletitle}</p>
+				</c:forEach>
 				</div>
 				<div class="分类">
 					
@@ -165,17 +186,124 @@ dd,dl,dt{
 <script src="../js/jquery.min.js"></script>
 <script src="../layui/layui.js"></script>
 <script type="text/javascript">
-layui.use('element', function(){
+layui.use(['element','layer'], function(){
 	  var element = layui.element;
-	  
-	  //…
+	  var layer = layui.layer;
+	  $("#collect").click(function(){
+			var articleid = $("#articleid").val();
+			var count = parseInt($("#collectCount").html());
+			var rel = $(this).attr("rel");
+			if(rel==='collect'){
+				$.ajax({
+					url:"../addCollectNum",
+					method:"post",
+					async: true,
+					data:{
+					_method : "put",
+					articleid:articleid,
+					article_collected_count:count
+					},
+					dataType : "json",
+					success : function(data) {
+						console.log(data);
+						$("#collectCount").html(data.cocount);	
+						$("#collect").html('&#xe658;');	
+						$("#collect").attr("rel", "uncollect");
+						layer.msg('收藏成功！');
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+		            alert(XMLHttpRequest.readyState);
+		            alert(textStatus);
+				}
+			});
+			}else{
+				$.ajax({
+					url:"../cancelCollectNum",
+					method:"post",
+					async: true,
+					data:{
+					_method : "put",
+					articleid:articleid,
+					article_collected_count:count
+					},
+					dataType : "json",
+					success : function(data) {
+						console.log(data);
+						$("#collectCount").html(data.cocount);	
+						$("#collect").html('&#xe600;');	
+						$("#collect").attr("rel", "collect");
+						layer.msg('取消收藏成功！');
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+		            alert(XMLHttpRequest.readyState);
+		            alert(textStatus);
+				}
+			});
+			}
+		});
+	  $("#follow").click(function(){
+			
+			var rel = $(this).attr("rel");
+			var userid = $("#userid").val();
+			console.log("userid"+userid);
+			var followingid = $("#aruserid").val();
+			console.log("followingid"+followingid);
+			if(rel==='follow'){
+				$.ajax({
+					url:"../addFollow",
+					method:"post",
+					async: true,
+					data:{
+					_method : "put",
+					userid: userid,
+					followingid: followingid
+					},
+					dataType : "json",
+					success : function(data) {
+						$("#follow").text('取消关注');
+						$("#follow").attr("rel", "unfollow");
+						layer.msg('关注成功！');
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+		            alert(XMLHttpRequest.readyState);
+		            alert(textStatus);
+				}
+			});
+			}else{
+				$.ajax({
+					url:"../cancelFollow",
+					method:"post",
+					async: true,
+					data:{
+					_method : "put",
+					userid: userid,
+					followingid: followingid
+					},
+					dataType : "json",
+					success : function(data) {
+						$("#follow").text('关注');
+						$("#follow").attr("rel", "follow");
+						layer.msg('取消关注成功！');
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+		            alert(XMLHttpRequest.readyState);
+		            alert(textStatus);
+				}
+			});
+			}
+		});	
 	});
 $("#like").click(function(){
 	
 	var count = parseInt($("#likeCount").html());
-	console.log(count);
+		console.log(count);
 		$(this).css("background-position", "");
 		var articleid = $("#articleid").val();
+		console.log(articleid);
 		var rel = $(this).attr("rel");
 		console.log(rel);
 		if (rel === 'like') {
@@ -228,6 +356,8 @@ $("#like").click(function(){
 			
 		}
 	});
+
+
 </script>
 </body>
 </html>

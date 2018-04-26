@@ -16,10 +16,11 @@ body {
 	background: url(../images/web_heart_animation.png);
 	background-position: left;
 	background-repeat: no-repeat;
-	height: 100px;
-	width: 100px;
+	height: 75px;
+	width: 75px;
 	cursor: pointer;
 	background-size: 2900%;
+	display: inline-block;
 }
 
 .heart:hover, .heart:focus {
@@ -67,10 +68,8 @@ p {
 	font-size: 25px;
 	color: #999999;
 	display: inline-block;
-	width:50px;
-	height:50px;
-	background-color:red;
-	margin-left: 82px; 
-	margin-bottom: 150px;
-	display: inline-block;
+	margin-bottom:20px;
+	vertical-align: middle;
+	width: 75px;
+	height: 75px;
 }

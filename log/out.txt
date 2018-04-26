@@ -1,0 +1,10 @@
+[DEBUG][2018/04/25 18:35:31729][com.lt.blog.apollo.Test1.main(Test1.java:27)]
+debug
+[INFO ][2018/04/25 18:35:31732][com.lt.blog.apollo.Test1.main(Test1.java:28)]
+info
+[WARN ][2018/04/25 18:35:31732][com.lt.blog.apollo.Test1.main(Test1.java:29)]
+warn
+[ERROR][2018/04/25 18:35:31733][com.lt.blog.apollo.Test1.main(Test1.java:30)]
+error
+[FATAL][2018/04/25 18:35:31733][com.lt.blog.apollo.Test1.main(Test1.java:31)]
+fatal

@@ -5,12 +5,15 @@
 
 	<mapper namespace="com.lt.blog.mapper.UserCollectMapper">
 		<insert id="addCollect" parameterType="UserCollect">
-			insert into usercollect (userid,articleid,liketime) values(#{userid},#{articleid},#{liketime})
+			insert into usercollect (userid,articleid,collecttime) values(#{userid},#{articleid},#{collecttime})
 		</insert>
 	    <delete id="cancelCollect" parameterType="UserCollect">
 	    	delete from usercollect where userid = #{userid} and articleid=#{articleid}
 	    </delete>
-	    <select id="collect" parameterType="UserCollect">
-	    	select * from usercollect where userid = #{userid} and articleid=#{articleid}
+	    <select id="collect" parameterType="int" resultType="int">
+	    	select userid from usercollect where articleid=#{articleid}
+	    </select>
+	     <select id="getCollectListByUserid" parameterType="int" resultType="int">
+	    	select articleid from usercollect where userid=#{userid}
 	    </select>
 	</mapper>

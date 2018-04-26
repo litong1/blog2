@@ -31,7 +31,11 @@ public class ArticleServiceImpl implements ArticleService {
 
 		updateArticle(article);
 	}
-
+	@Override
+	public List<Article> getArticleListByUserid(Integer article_userid) {
+		
+		return mapper.getArticleListByUserid(article_userid);
+	}
 	@Override
 	public List<Article> getArticleListByDate() {
 
@@ -90,6 +94,8 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		return mapper.getArticleidPublish(article_userid);
 	}
+
+	
 	
 
 }

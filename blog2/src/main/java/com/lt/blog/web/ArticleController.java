@@ -5,9 +5,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +23,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.ctrip.framework.apollo.Config;
+import com.ctrip.framework.apollo.ConfigService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lt.blog.db.RedisApi;
+import com.lt.blog.log.Log;
 import com.lt.blog.pojo.Account;
 import com.lt.blog.pojo.Article;
 import com.lt.blog.pojo.ArticleCount;
@@ -61,6 +68,9 @@ public class ArticleController {
 	UserLikeService userLikeService;
 	@Autowired
 	UserCollectService userCollectService;
+	Logger logger = Logger.getLogger(ArticleController.class);
+	
+	
 	@RequestMapping(value = "/postedit", method = RequestMethod.GET)
 	public ModelAndView traPostedit() {
 
@@ -86,8 +96,9 @@ public class ArticleController {
 	@ResponseBody
 	public JSONObject addArticle(Article article){
 		
-		System.out.println(article.toString());
-					
+//		Config config = ConfigService.getAppConfig();
+//		String ip = config.getProperty("redisIp", "127.0.0.1");
+//		System.out.println(ip);			
 	
 		String article_personcategotys = article.getArticle_personcategoty();	
 		int userid = article.getArticle_userid();
@@ -99,9 +110,10 @@ public class ArticleController {
 		articleService.addArticle(article);
 		
 		// 找出用户最新的五篇文章   redis里userid对应最新五篇文章的articleid
-//		List<Integer> articleList = articleService.getNewArticleList(userid);
-//		Jedis jedis = RedisApi.getJedis();
-//		jedis.hset("", String.valueOf(userid), JSON.parseArray(articleList.toString()).toString());
+		List<Integer> articleList = articleService.getNewArticleList(userid);
+		
+		Jedis jedis = RedisApi.getJedis();
+		jedis.hset("newArticleId", String.valueOf(userid), JSON.parseArray(articleList.toString()).toString());
 		
 		//文章原创数+1
 		
@@ -136,7 +148,8 @@ public class ArticleController {
 			cat.setUserid(userid);
 			cat.setCategoryname(catname);
 			categoryService.addCategory(cat);
-		}	
+		}
+
 		JSONObject json = new JSONObject();
 		json.put("result", "success");
 		return json;
@@ -144,8 +157,10 @@ public class ArticleController {
 	@RequestMapping(value = "/article/{articleid:\\d+}", method=RequestMethod.GET,produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public ModelAndView getArticle(@PathVariable("articleid") Integer articleid,HttpServletRequest request) {
-		System.out.println(123);
-		System.out.println(articleid);
+		  
+        logger.addAppender(Log.getFileAppender());//添加输出端  
+		logger.warn("articleid"+articleid);
+		
 		//获取文章信息
 		Article ar = articleService.getArticleById(articleid);
 		//获取文章统计信息
@@ -155,38 +170,42 @@ public class ArticleController {
 		//获取作者信息
 		User user = userService.getUserById(ar.getArticle_userid());
 		//获取作者最新五篇文章信息
-//		Jedis jedis = RedisApi.getJedis();
-//		String articleidList = jedis.hget("", String.valueOf(ar.getArticle_userid()));
-//		JSONArray array = JSON.parseArray(articleidList);
-//		List<Article> articleList = new ArrayList<>();
-//		for (int i = 0; i < array.size(); i++) {
-//			int newid = array.getIntValue(i);
-//			Article newar = articleService.getArticleById(newid);
-//			articleList.add(newar);
-//		}
+		Jedis jedis = RedisApi.getJedis();
+		String articleidList = jedis.hget("newArticleId", String.valueOf(ar.getArticle_userid()));
+		JSONArray array = JSON.parseArray(articleidList);
+		List<Article> articleList = new ArrayList<>();
+		for (int i = 0; i < array.size(); i++) {
+			int newid = array.getIntValue(i);
+			Article newar = articleService.getArticleById(newid);
+			articleList.add(newar);
+		}
 		//判断当前用户是否喜欢此文章
 		Account ac = (Account) request.getSession().getAttribute("account");
-		System.out.println("ac: "+ac.toString());
 		
 		List<Integer> users = userLikeService.like(articleid);
 		
 		boolean resultlike = users.contains(ac.getUserid());
-		System.out.println(resultlike);
 //		//判断当前用户是否收藏此文章
-//		UserCollect ucollect = new UserCollect();
-//		ucollect.setArticleid(articleid);
-//		ucollect.setUserid(ac.getUserid());
-//		UserCollect rscollect = userCollectService.collect(ucollect);
-//		boolean resultcollect = rscollect==null?false:true;
+		List<Integer> cusers = userCollectService.collect(articleid);	
+		boolean resultcollect = cusers.contains(ac.getUserid());
+		//判断当前用户是否关注此作者
+		jedis.select(1);
+		String key = "following:"+ac.getUserid();
+		long length = jedis.zcard(key);
+		Set<String> set = jedis.zrange(key, 0, length-1);
+	
+		boolean resultfollow = set.contains(String.valueOf(ar.getArticle_userid()));	
+		System.out.println(resultfollow);
 		ModelAndView mav = new ModelAndView();
 		// 放入转发参数
 		mav.addObject("user", user);
 		mav.addObject("articleCount",arcount);
 		mav.addObject("userCount", uc);
 		mav.addObject("article", ar);
-		//mav.addObject("newarList",articleidList);
+		mav.addObject("newarList",articleList);
 		mav.addObject("isLike", resultlike);
-//		mav.addObject("isCollect", resultcollect);
+		mav.addObject("isCollect", resultcollect);
+		mav.addObject("isFollow",resultfollow);
 		mav.setViewName("article/article");
 		return mav;
 	}
@@ -228,6 +247,44 @@ public class ArticleController {
 		return json;
 		
 	}
+	@RequestMapping(value = "/addCollectNum", method=RequestMethod.PUT,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public JSONObject addCollectNum(ArticleCount articleCount,HttpServletRequest request){
+		//添加用户与文章之间的收藏关系
+		UserCollect uCollect = new UserCollect();
+		uCollect.setArticleid(articleCount.getArticleid());
+		Account ac = (Account) request.getSession().getAttribute("account");
+		//当前用户
+		uCollect.setUserid(ac.getUserid());
+		uCollect.setCollecttime(new Date());
+		userCollectService.addCollect(uCollect);
+		//增加文章收藏数
+		articleCountService.addArticleCollectedCount(articleCount);
+		ArticleCount count = articleCountService.getArticleCountByArticleId(articleCount.getArticleid());
+		JSONObject json = new JSONObject();
+		json.put("cocount", count.getArticle_collected_count());
+		return json;
+		
+	}
+	@RequestMapping(value = "/cancelCollectNum", method=RequestMethod.PUT,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public JSONObject cancelCollectNum(ArticleCount articleCount,HttpServletRequest request){
+		articleCountService.cancelArticleCollectedCount(articleCount);
+		// 删除用户与文章之间的收藏关系
+		UserCollect ucollect = new UserCollect();
+		ucollect.setArticleid(articleCount.getArticleid());
+		Account ac = (Account) request.getSession().getAttribute("account");
+		// 当前用户 
+		ucollect.setUserid(ac.getUserid());
+		ucollect.setCollecttime(new Date());
+		userCollectService.cancelCollect(ucollect);
+		ArticleCount count = articleCountService.getArticleCountByArticleId(articleCount.getArticleid());
+		JSONObject json = new JSONObject();
+		json.put("cocount", count.getArticle_collected_count());
+		return json;
+		
+	}
+	
 	@ResponseBody
 	@RequestMapping("/articleList")
 	public Map<String, Object> listShopCustomerInfo(Integer page, Integer pageSize) {
