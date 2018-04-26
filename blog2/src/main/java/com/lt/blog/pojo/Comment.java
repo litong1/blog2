@@ -5,159 +5,156 @@ public class Comment {
 	/**
 	 * 评论id
 	 */
-    private Integer commentId;
+    private Integer commentid;
     /**
      * 被评论人id
      */
-    private Integer commentPid;
+    private Integer commentpid;
     /**
      * 被评论人昵称
      */
-    private String commentPname;
+    private String commentpname;
+    /**
+     * 被评论人头像
+     */
+    private String commentpavatar;
     /**
      * 被评论文章id
      */
     private Integer commentArticleId;
     /**
+     * 评论人id
+     */
+    private Integer comment_authorid;
+    /**
      * 评论作者昵称
      */
-    private String commentAuthorName;
+    private String comment_authorname;
     /**
-     * 评论作者邮箱
+     * 评论作者头像
      */
-    private String commentAuthorEmail;
-    /**
-     * 评论作者url
-     */
-    private String commentAuthorUrl;
+    private String comment_authoravatar;
+    
     /**
      * 评论内容
      */
-    private String commentContent;
+    private String commentcontent;
     
-    /**
-     * 评论代理
-     */
-    private String commentAgent;
-    
-    /**
-     * 评论ip
-     */
-    private String commentIp;
     /**
      * 评论时间
      */
-    private Date commentCreateTime;
+    private Date commentdate;
+    /**
+     * 评论楼层
+     */
+    private int comment_floor_num;
     /**
      * 评论权限
      */
-    private Integer commentRole;
+    private Integer commentrole;
     /**
      * 评论状态
      */
-    private Integer commentStatus;
-
-    public Integer getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(Integer commentId) {
-        this.commentId = commentId;
-    }
-
-    public Integer getCommentPid() {
-        return commentPid;
-    }
-
-    public void setCommentPid(Integer commentPid) {
-        this.commentPid = commentPid;
-    }
-
-    public String getCommentPname() {
-        return commentPname;
-    }
-
-    public void setCommentPname(String commentPname) {
-        this.commentPname = commentPname == null ? null : commentPname.trim();
-    }
-
-    public Integer getCommentArticleId() {
-        return commentArticleId;
-    }
-
-    public void setCommentArticleId(Integer commentArticleId) {
-        this.commentArticleId = commentArticleId;
-    }
-
-    public String getCommentAuthorName() {
-        return commentAuthorName;
-    }
-
-    public void setCommentAuthorName(String commentAuthorName) {
-        this.commentAuthorName = commentAuthorName == null ? null : commentAuthorName.trim();
-    }
-
-    public String getCommentAuthorEmail() {
-        return commentAuthorEmail;
-    }
-
-    public void setCommentAuthorEmail(String commentAuthorEmail) {
-        this.commentAuthorEmail = commentAuthorEmail == null ? null : commentAuthorEmail.trim();
-    }
-
-    public String getCommentAuthorUrl() {
-        return commentAuthorUrl;
-    }
-
-    public void setCommentAuthorUrl(String commentAuthorUrl) {
-        this.commentAuthorUrl = commentAuthorUrl == null ? null : commentAuthorUrl.trim();
-    }
-
-    public String getCommentContent() {
-        return commentContent;
-    }
-
-    public void setCommentContent(String commentContent) {
-        this.commentContent = commentContent == null ? null : commentContent.trim();
-    }
-
-    public String getCommentAgent() {
-        return commentAgent;
-    }
-
-    public void setCommentAgent(String commentAgent) {
-        this.commentAgent = commentAgent == null ? null : commentAgent.trim();
-    }
-
-    public String getCommentIp() {
-        return commentIp;
-    }
-
-    public void setCommentIp(String commentIp) {
-        this.commentIp = commentIp == null ? null : commentIp.trim();
-    }
-
-    public Date getCommentCreateTime() {
-        return commentCreateTime;
-    }
-
-    public void setCommentCreateTime(Date commentCreateTime) {
-        this.commentCreateTime = commentCreateTime;
-    }
-
-    public Integer getCommentRole() {
-        return commentRole;
-    }
-
-    public void setCommentRole(Integer commentRole) {
-        this.commentRole = commentRole;
-    }
-
-    public Integer getCommentStatus() {
-        return commentStatus;
-    }
-
-    public void setCommentStatus(Integer commentStatus) {
-        this.commentStatus = commentStatus;
-    }
+    private Integer commentstatus;
+    /**
+     * 评论是否是回复的
+     */
+    private Integer commentisreply;
+    /**
+     * 回复的评论id
+     */
+    private Integer replyid;
+	public Integer getCommentid() {
+		return commentid;
+	}
+	public void setCommentid(Integer commentid) {
+		this.commentid = commentid;
+	}
+	public Integer getCommentpid() {
+		return commentpid;
+	}
+	public void setCommentpid(Integer commentpid) {
+		this.commentpid = commentpid;
+	}
+	public String getCommentpname() {
+		return commentpname;
+	}
+	public void setCommentpname(String commentpname) {
+		this.commentpname = commentpname;
+	}
+	public String getCommentpavatar() {
+		return commentpavatar;
+	}
+	public void setCommentpavatar(String commentpavatar) {
+		this.commentpavatar = commentpavatar;
+	}
+	public Integer getCommentArticleId() {
+		return commentArticleId;
+	}
+	public void setCommentArticleId(Integer commentArticleId) {
+		this.commentArticleId = commentArticleId;
+	}
+	public Integer getComment_authorid() {
+		return comment_authorid;
+	}
+	public void setComment_authorid(Integer comment_authorid) {
+		this.comment_authorid = comment_authorid;
+	}
+	public String getComment_authorname() {
+		return comment_authorname;
+	}
+	public void setComment_authorname(String comment_authorname) {
+		this.comment_authorname = comment_authorname;
+	}
+	public String getComment_authoravatar() {
+		return comment_authoravatar;
+	}
+	public void setComment_authoravatar(String comment_authoravatar) {
+		this.comment_authoravatar = comment_authoravatar;
+	}
+	public String getCommentcontent() {
+		return commentcontent;
+	}
+	public void setCommentcontent(String commentcontent) {
+		this.commentcontent = commentcontent;
+	}
+	public Date getCommentdate() {
+		return commentdate;
+	}
+	public void setCommentdate(Date commentdate) {
+		this.commentdate = commentdate;
+	}
+	public int getComment_floor_num() {
+		return comment_floor_num;
+	}
+	public void setComment_floor_num(int comment_floor_num) {
+		this.comment_floor_num = comment_floor_num;
+	}
+	public Integer getCommentrole() {
+		return commentrole;
+	}
+	public void setCommentrole(Integer commentrole) {
+		this.commentrole = commentrole;
+	}
+	public Integer getCommentstatus() {
+		return commentstatus;
+	}
+	public void setCommentstatus(Integer commentstatus) {
+		this.commentstatus = commentstatus;
+	}
+	public Integer getCommentisreply() {
+		return commentisreply;
+	}
+	public void setCommentisreply(Integer commentisreply) {
+		this.commentisreply = commentisreply;
+	}
+	public Integer getReplyid() {
+		return replyid;
+	}
+	public void setReplyid(Integer replyid) {
+		this.replyid = replyid;
+	}
+    
+    
+    
 }
