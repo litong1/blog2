@@ -91,7 +91,7 @@ background-color:#f2f2f2;
 }
 </style>
 </head>
-<body class="layui-layout-body">
+<body >
 <div class="layui-layout layui-layout-admin">
   
 	<div class="layui-header head">
@@ -142,7 +142,7 @@ background-color:#f2f2f2;
 						
 						<dl class="user-photo">
 							<dt>
-								<img src="${user.useravatar }" width="150px" height="150px">
+								<img src="../${user.useravatar }" width="150px" height="150px">
 							</dt>
 
 							<dd class="follow_num">
@@ -285,6 +285,7 @@ layui.use('form', function(){
 				  content: $("#edituserform"),
 				  btn:['保存','取消'],
 				  success: function(layero, index){
+					  $("#editDiv").css("display","block");
 					  $("input[name='username']").val($("#susername").text());
 					  $("input[name='user_mail_address']").val($("#suser_mail_address").text());
 					  $("input[name='user_real_name']").val($("#suser_real_name").text());
@@ -371,15 +372,18 @@ layui.use('form', function(){
 				                alert(textStatus);
 							}
 						}); 
+					  $("#editDiv").css("display","none");
 				    layer.close(index); //如果设定了yes回调，需进行手工关闭
 				  },
 				  btn2: function(index, layero){
 					    //按钮【按钮二】的回调
+					    $("#editDiv").css("display","none");
 					    layer.close(index);					
 					    //return false 开启该代码可禁止点击该按钮关闭
 					  },
 				  cancel: function(index, layero){ 
 					  if(confirm('确定要关闭么')){ //只有当点击confirm框的确定时，该层才会关闭
+						  	$("#editDiv").css("display","none");
 						    layer.close(index)
 						  }
 						  return false;
@@ -395,7 +399,7 @@ function userRegister(){
 	}
 </script>
 </body>
-<div >
+<div id="editDiv" style="display: none;">
 	<form class="layui-form" action="" id="edituserform">
 		<div class="layui-form-item">
 			<label class="layui-form-label">昵称：</label>

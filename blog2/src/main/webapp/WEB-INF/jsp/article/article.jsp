@@ -35,7 +35,7 @@ dd,dl,dt{
 </style>
 <title>${ar.articletitle }-灵通博客</title>
 </head>
-<body class="layui-layout-body" style="background-color: #f5f6f7;">
+<body  style="background-color: #f5f6f7;">
 <div class="layui-layout layui-layout-admin">
   
 	<div class="layui-header head">
@@ -181,6 +181,7 @@ dd,dl,dt{
 			</div>	
 			
 		</div>
+		
 		
 	</div>
 <script src="../js/jquery.min.js"></script>

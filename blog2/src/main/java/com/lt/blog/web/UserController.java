@@ -27,8 +27,11 @@ import com.lt.blog.pojo.Article;
 import com.lt.blog.pojo.Category;
 import com.lt.blog.pojo.Following;
 import com.lt.blog.pojo.User;
+import com.lt.blog.pojo.UserLike;
 import com.lt.blog.service.ArticleService;
 import com.lt.blog.service.UserCollectService;
+import com.lt.blog.service.UserCountService;
+import com.lt.blog.service.UserLikeService;
 import com.lt.blog.service.UserService;
 import com.lt.blog.util.DateFormat;
 
@@ -42,6 +45,8 @@ public class UserController {
 	UserService userService;
 	@Autowired
 	ArticleService articleService;
+	@Autowired
+	UserCountService userCountService;
 	@Autowired
 	UserCollectService userCollectService;
 	@RequestMapping(value = "/usercenter/{userid:\\d+}", method = RequestMethod.GET)
@@ -110,9 +115,13 @@ public class UserController {
 		double score = System.currentTimeMillis();
 		//关注人
 		jedis.zadd(key1,score , String.valueOf(followingid));
+		//当前用户关注数加一
+		userCountService.addFollownum(userCountService.getUserCountById(userid));
 		String key2 = "fans:"+followingid;
 		//成为关注人的粉丝
 		jedis.zadd(key2, score, String.valueOf(userid));
+		//被关注人粉丝数加一
+		userCountService.addFansnum(userCountService.getUserCountById(followingid));
 		JSONObject json = new JSONObject();
 		json.put("result", "success");
 		return json;

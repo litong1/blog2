@@ -51,7 +51,7 @@
 <link rel="stylesheet" href="layui/css/layui.css">
 <title>首页</title>
 </head>
-<body class="layui-layout-body">
+<body >
 <div class="layui-layout layui-layout-admin">
   
 	<div class="layui-header head">
@@ -137,7 +137,7 @@ layui.use('element', function(){
 layui.use('laypage', function(){
 	  var laypage = layui.laypage;
 	  var url = "articleList";
-	  var config = {page:1,pageSize:2};
+	  var config = {page:1,pageSize:5};
 	  $.getJSON(url,config,function(res){
 	   laypage.render({
 	      elem: 'paged',
