@@ -21,10 +21,21 @@ import com.lt.blog.pojo.MessageBoard;
 import com.lt.blog.service.MessageBoardService;
 
 @Controller
+@RequestMapping("")
 public class MessageBoardController {
 
 	@Autowired
 	MessageBoardService messageBoardService;
+	
+	
+	@RequestMapping(value = "/messageboard", method = RequestMethod.GET)
+	public ModelAndView traMessageBoard() {
+
+		ModelAndView mav = new ModelAndView();
+		System.out.println("ERROR");
+		mav.setViewName("message/messageBoard");
+		return mav;
+	}
 	@RequestMapping(value = "message", method = RequestMethod.PUT, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JSONObject addMessage(MessageBoard messageBoard) {
@@ -36,7 +47,7 @@ public class MessageBoardController {
 	
 	@RequestMapping(value = "/messageBoard/{messageid}", method = RequestMethod.DELETE, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public JSONArray deleteCategory(int messageid, int message_master_id) {
+	public JSONArray deleteMessage(int messageid, int message_master_id) {
 		messageBoardService.deleteMessage(messageid);
 		System.out.println("删除成功");
 		List<MessageBoard> mlist = messageBoardService.messageList(message_master_id);
@@ -45,7 +56,7 @@ public class MessageBoardController {
 		return array;
 	}
 	@RequestMapping(value = "/messageBoard", method = RequestMethod.GET)
-	public ModelAndView categoryList(HttpServletRequest request) {
+	public ModelAndView messageList(HttpServletRequest request) {
 
 		ModelAndView mav = new ModelAndView();
 		HttpSession session = request.getSession();

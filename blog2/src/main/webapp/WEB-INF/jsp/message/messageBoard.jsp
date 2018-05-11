@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -9,40 +8,7 @@
 <!-- 包含头部信息用于适应不同设备 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-.bloglist {
-	width: 100%;
-	height: 100px;
-	border: 1px solid #2F4056;
-	margin-bottom: 5px;
-	vertical-align: middle;
-}
-.articleinfo {
-	float: left;
-	padding: 13px;
-}
-.articletitle {
-	
-}
 
-.bloglist {
-	
-}
-.read {
-	float: right;
-	margin-top: 7px;
-	padding: 10px;
-}
-.arusername{
-	margin-right: 10px;
-	padding-left: 5px;
-}
-.category{
-	margin-top: 15px;
-}
-.artitle{
-	font-size:20px;
-	font-weight: bold;
-}
 .blogcat{
 	color:#01AAED;
 	padding-right: 10px;
@@ -61,7 +27,7 @@
 			<li class="layui-nav-item layui-this"><a href="">博客</a></li>
 			<li class="layui-nav-item "><a href="">下载</a></li>
 			<li class="layui-nav-item"><a href="">动态</a></li>
-			<li class="layui-nav-item"><a href="messageboard">留言板</a>
+			<li class="layui-nav-item"><a href="javascript:;">留言板</a>
 			<li class="layui-nav-item"><a href="">社区</a></li>
 		</ul>
 		<div>
@@ -88,41 +54,9 @@
 		</ul>
 	</div>
 		<div  style="margin: 0 auto;width: 75%;min-height:200px;height: auto;">
-			<div style="width: 15%;min-height:250px;height:auto;float: left;">
-				<ul class="layui-nav layui-nav-tree" lay-filter="test">
-					<!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
-					<li class="layui-nav-item layui-nav-itemed"><a
-						href="javascript:;">推荐</a>
-						
-					<li class="layui-nav-item"><a href="javascript:;">最新</a>
-					</li>
-					<li class="layui-nav-item"><a href="">技术</a></li>
-					<li class="layui-nav-item"><a href="">文青</a></li>
-				</ul>
-			</div>
-			<!-- 内容主体 -->
-			
-				<div class="main" style="width: 80%;min-height:250px;height:auto; display:inline-block;margin-top: 50px;margin-left:-150px;float: right;">
-					<div class="bodyleft" style="width: 70%;display:inline-block;">
-						
-						<div class="arcontent">
-						</div>
-						<div class="admin-table-page" >
-								<div id="paged" class="page">
-								</div>
-						</div>	
-					</div>
-					
-					<div class="bodyright" style="width: 15%;height:auto;display:inline-block;vertical-align: top;margin-left: 30px;">
-						<div>今日推荐</div>
-						<div style="width: 100%; height: 300px; background-color: orange;">
-
-						</div>
-					</div>
-				</div>			
-			
-				
-			
+			<h1>留言板</h1>
+			<textarea id="messageBoard" style="display: none;"></textarea>
+			<button class="layui-btn" id="addMessage">发表</button>
 		</div>
 		
 	</div>
@@ -131,8 +65,13 @@
 <script src="js/jquery.min.js"></script>
 <script src="layui/layui.js"></script>
 <script type="text/javascript">
-layui.use('element', function(){
+layui.use(['element','layedit'], function(){
 	  var element = layui.element;	  
+	  var layedit = layui.layedit;
+	  layedit.build('messageBoard'); //建立编辑器
+	  $('#addMessage').click(function(){
+		  
+	  });
 	});
 layui.use('laypage', function(){
 	  var laypage = layui.laypage;
